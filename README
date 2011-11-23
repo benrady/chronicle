@@ -1,0 +1,10 @@
+
+form = Chronicle.load('myform.png', 'formspec.yaml')
+form.first_name = 'ben'
+form.last_name = 'rady'
+form.items = ['table', 'chairs', 'bench']
+form.donation = true
+form.amount = 100
+form.date = Time.now
+form.signature = open('signature.png')
+form.write_to('signed_form.png')
