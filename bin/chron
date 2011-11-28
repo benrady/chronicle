@@ -4,4 +4,4 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'chronicle'
 
-Chronicle.create_document(ARGV)
+Chronicle.finish(*ARGV)

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+bin_dir=`dirname $0`
+roster_file=$1
+if [[ ! -e $roster_file ]]; then
+  echo "Usage: $0 roster.csv"
+  exit 1
+fi
+
+echo "Generating results from roster file"
+cat "$1" | jruby $bin_dir/chron
+
+#echo "Sending links to chronicle sheets"
+# FIXME
+

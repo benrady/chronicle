@@ -1,0 +1,16 @@
+#!/bin/bash
+
+roster_file=$1
+if [[ ! -e $roster_file ]]; then
+  echo "Usage: $0 roster.csv"
+  exit 1
+fi
+
+echo "Validating roster file"
+# FIXME
+
+echo "Sending confirmations w/ faction missions"
+# FIXME
+
+#echo "Creating session on paizo.com"
+# FIXME

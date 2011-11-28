@@ -1,27 +1,26 @@
 require 'chronicle'
 
-describe Schema do
-  let (:graphics) { double 'graphics' }
 
-  let (:schema) do 
-    Schema.new({"name" => [10, 15]})
-  end
-
-  before( :each ) do
-    graphics.stub :setColor
-    graphics.stub :setFont
-  end
-
-  it "draws the player info on top of the sheet" do
-    graphics.should_receive(:drawString).with("Bob", 10, 15)
-    schema.draw(graphics, {"name" => 'Bob'})
-  end
-
-  it "draws the GM info on top of the sheet" do
+describe Chronicle do
+  it "can generate a digital signature" do
     pending
   end
 
-  it "digitally signs the player info" do
+  it "fills in calculated data using postfix expressions in the schema" do
     pending
+  end
+
+  describe "Uses the roster to generate an encounters.html file that can generate a result.json file for chronicle" do
+    it "includes the rewards" do
+      pending
+    end
+
+    it "includes the faction missions" do
+      pending
+    end
+
+    it "includes loot" do
+      pending
+    end
   end
 end
