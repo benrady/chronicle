@@ -1,4 +1,5 @@
 class RosterParser
+  ITEM_REGEX = /([^0-9]*)\s(\d*)\s?([gscp]p)/i
   COLUMNS = [
     :timestamp, 
     :player_name, 
@@ -52,9 +53,36 @@ class RosterParser
     info[:society_number], info[:character_number] = info[:society_id].split('-')
   end
 
+  def convert_to_gp(amount, units)
+    case units
+      when 'cp' then amount / 100.0
+      when 'sp' then amount / 10.0
+      when 'gp' then amount 
+      when 'pp' then amount * 10
+    end
+  end
+
+  def parse_items(items)
+    descriptions = []
+    amounts = []
+    total = 0
+    items.split("\n").each do |item|
+      item_desc, price, units = ITEM_REGEX.match(item).captures
+      descriptions << item_desc
+      amounts << "#{price} #{units}"
+      total += convert_to_gp(price.to_i, units.downcase)
+    end
+    return descriptions, amounts, total
+  end
+
+  def parse_trades(info)
+    info[:items_bought_desc], info[:items_bought_amount], info[:items_bought_total] = parse_items(info[:buy_list])
+    info[:items_sold_desc], info[:items_sold_amount], info[:items_sold_total] = parse_items(info[:sell_list])
+  end
+
   def calculate_totals(info)
+    parse_trades(info)
     info[:day_job] = info[:day_job?] || 0
-    info[:items_sold_total] = 0
     info[:subtotal] = subtotal(info)
     info[:gold_total] = gold_total(info)
     info[:final_fame] = final_fame(info)

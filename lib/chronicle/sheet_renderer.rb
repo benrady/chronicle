@@ -41,6 +41,7 @@ class SheetRenderer
   def draw_list(list, markup)
     x, y = markup[:coords]
     markup[:size].times do |row|
+      @g.setFont(Font.new('Marker Felt', Font::PLAIN, markup[:height] - 10))
       @g.drawString(list[row].to_s, x, y + (row * markup[:height]))
     end
   end

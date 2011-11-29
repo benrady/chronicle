@@ -3,7 +3,7 @@
 bin_dir=`dirname $0`
 
 function print_usage {
-  echo "Usage: $0 roster.csv chronicle_number event_name event_code gm_society_number"
+  echo "Usage: $0 roster.csv chronicle_number event_name event_code"
   exit 1
 }
 

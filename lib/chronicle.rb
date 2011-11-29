@@ -14,21 +14,17 @@ module Chronicle
     IO.write(sheet, 'png', java.io.File.new("sheets/#{player_name}.png"))
   end
 
-  def self.add_gm_info(player_info)
-    info = player_info.merge({
-      :chronicle_number => chronicle_number,
-      :event_code => event_code,
-      :event => event_name
-    }).merge(GMData.load_gm_data)
-  end
-
   def self.finish(chronicle_number, event_name, event_code)
     parser = RosterParser.new
     BasicCSV.parse_lines(STDIN.readlines).each do |line|
       sheet = GMData.load_chronicle_sheet
       g = sheet.getGraphics
       renderer = SheetRenderer.new(g, SheetSchema::Season3::TWO_TIER)
-      info = add_gm_info(parser.player_info(line))
+      info = parser.player_info(line).merge({
+        :chronicle_number => chronicle_number,
+        :event_code => event_code,
+        :event => event_name
+      }).merge(GMData.load_gm_data)
       renderer.draw(info)
       g.dispose
       write_sheet(sheet, info[:player_name])

@@ -109,6 +109,16 @@ module SheetSchema
         :coords => [795,2539],
         :height => 2571-2539,
         :size => 7
+      }],
+      :items_bought_desc => [:list, {
+        :coords => [1085,2539],
+        :height => 2571-2539,
+        :size => 7
+      }],
+      :items_bought_amount => [:list, {
+        :coords => [1700,2539],
+        :height => 2571-2539,
+        :size => 7
       }]
     }
     THREE_TIER = {}

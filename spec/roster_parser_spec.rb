@@ -35,4 +35,24 @@ describe RosterParser do
     info[:society_number].should == '39223'
     info[:character_number].should == '2'
   end
+
+  describe "when items are bought and sold" do
+    let (:info) {{
+      :buy_list => "first item 20gp\nsecond item 30 sp\nitem 10PP",
+      :sell_list => "other item 10gp\nanother item 15 gp"
+    }}
+
+    before( :each ) do
+      parser.parse_trades(info)
+    end
+
+    it "parses the items from a single string" do
+      info[:items_bought_desc].should == ['first item', 'second item', 'item']
+      #info[:items_sold_desc].should == ['other item', 'another item']
+    end
+    
+    it "calculates the total" do
+      info[:items_bought_total].should == 123
+    end
+  end
 end
