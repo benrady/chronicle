@@ -76,12 +76,14 @@ class RosterParser
   end
 
   def parse_trades(info)
-    info[:items_bought_desc], info[:items_bought_amount], info[:items_bought_total] = parse_items(info[:buy_list])
-    info[:items_sold_desc], info[:items_sold_amount], info[:items_sold_total] = parse_items(info[:sell_list])
+    info[:items_bought_desc], info[:items_bought_amount], info[:items_bought_cost] = parse_items(info[:buy_list])
+    info[:items_sold_desc], info[:items_sold_amount], info[:items_sold_cost] = parse_items(info[:sell_list])
   end
 
   def calculate_totals(info)
     parse_trades(info)
+    info[:items_bought_total] = info[:items_bought_cost]
+    info[:items_sold_total] = info[:items_sold_cost] / 2
     info[:day_job] = info[:day_job?] || 0
     info[:subtotal] = subtotal(info)
     info[:gold_total] = gold_total(info)

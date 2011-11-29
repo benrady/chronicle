@@ -10,7 +10,7 @@ module SheetSchema
     RIGHT_COLUMN_INSET = 2055
     RIGHT_COLUMN_OUTSET = 2250
     HEADER_BASELINE = 600
-    IMAGE_OFFSET = 90
+    IMAGE_OFFSET = 85
     SMALL_FONT = 36
     LARGE_FONT = 64
 
@@ -110,6 +110,9 @@ module SheetSchema
         :height => 2571-2539,
         :size => 7
       }],
+      :items_sold_cost => [:text, {
+        :coords => [815, 2859], :font_size => SMALL_FONT
+      }],
       :items_bought_desc => [:list, {
         :coords => [1085,2539],
         :height => 2571-2539,
@@ -119,6 +122,9 @@ module SheetSchema
         :coords => [1700,2539],
         :height => 2571-2539,
         :size => 7
+      }],
+      :items_bought_cost => [:text, {
+        :coords => [1725, 2859], :font_size => SMALL_FONT
       }]
     }
     THREE_TIER = {}
