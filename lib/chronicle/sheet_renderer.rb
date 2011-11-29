@@ -2,11 +2,14 @@ require 'java'
 
 import java.awt.Color
 import java.awt.Font
+import java.awt.RenderingHints
+
 class SheetRenderer
   def initialize(graphics, schema)
     @g, @schema = graphics, schema
     @g.setColor Color.black
-    @g.setFont(Font.new('Serif', Font::PLAIN, 36))
+    @g.translate(0, -10)
+    @g.setRenderingHint(RenderingHints::KEY_TEXT_ANTIALIASING, RenderingHints::VALUE_TEXT_ANTIALIAS_ON)
   end
   
   def draw(player_info)
@@ -24,8 +27,14 @@ class SheetRenderer
     end
   end
 
-  def draw_text(text, markup)
+  def draw_image(image, markup)
     x, y = markup
+    @g.drawImage(image, x, y, nil)
+  end
+
+  def draw_text(text, markup)
+    x, y = markup[:coords]
+    @g.setFont(Font.new('Marker Felt', Font::PLAIN, markup[:font_size]))
     @g.drawString(text.to_s, x, y)
   end
 

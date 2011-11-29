@@ -2,8 +2,8 @@ require 'chronicle/roster_parser'
 
 describe RosterParser do
   let (:parser) { RosterParser.new }
-  let (:line) { "11/28/2011 13:32:01,Brian,39223-2,0,1,0,149,Henry Rollins,,,brianrady@gmail.com,Andoran,brianrady,,100,1,2" }
-  let (:info) { parser.player_info(line) }
+  let (:row) { "11/28/2011 13:32:01,Brian,39223-2,0,1,0,149,Henry Rollins,,,brianrady@gmail.com,Andoran,brianrady,,100,1,2,1".split(',') }
+  let (:info) { parser.player_info(row) }
 
   it "extracts known columns from the line" do
     info[:player_name].should == 'Brian'
@@ -20,7 +20,7 @@ describe RosterParser do
   end
 
   it "calculates net prestige" do
-    info[:final_prestige].should == 2
+    info[:final_prestige].should == 1
   end
 
   it "calculates net fame" do

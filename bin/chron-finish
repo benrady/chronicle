@@ -1,14 +1,28 @@
 #!/bin/bash
 
 bin_dir=`dirname $0`
-roster_file=$1
-if [[ ! -e $roster_file ]]; then
-  echo "Usage: $0 roster.csv"
+
+function print_usage {
+  echo "Usage: $0 roster.csv chronicle_number event_name event_code gm_society_number"
   exit 1
+}
+
+if [[ $# -ne 4 ]]; then
+  print_usage
+fi
+
+roster_file=$1
+chronicle_number=$2
+event_name=$3
+event_code=$4
+
+if [[ ! -e $roster_file ]]; then
+  print_usage
 fi
 
 echo "Generating results from roster file"
-cat "$1" | jruby $bin_dir/chron
+mkdir -p sheets
+cat "$roster_file" | jruby --headless $bin_dir/chron $chronicle_number $event_name $event_code 
 
 #echo "Sending links to chronicle sheets"
 # FIXME

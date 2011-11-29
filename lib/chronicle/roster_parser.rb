@@ -16,11 +16,11 @@ class RosterParser
     :day_job,
     :gold_gained,
     :xp_gained,
-    :prestige_gained
+    :prestige_gained,
+    :prestige_spent
   ]
 
-  def player_info(line)
-    cells = line.split(',')
+  def player_info(cells)
     info = {}
     COLUMNS.each do |col|
       info[col] = cells.shift
@@ -37,7 +37,7 @@ class RosterParser
   end
 
   def final_prestige(info)
-    info[:starting_prestige].to_i + info[:prestige_gained].to_i
+    info[:starting_prestige].to_i + info[:prestige_gained].to_i - info[:prestige_spent].to_i
   end
 
   def xp_total(info)

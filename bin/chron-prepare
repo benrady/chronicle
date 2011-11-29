@@ -15,13 +15,12 @@ if [[ ! -e chronicle_sheet.png ]]; then
   mv $name*.png chronicle_sheet.png
 fi
 
-echo "Downloading latest bestiary..."
-wget https://spreadsheets.google.com/feeds/list/0AhwDI9kFz9SddGFBN1RBc25yU2syZU5DRktXUkpPanc/default/public/basic -o bestiary.xml
+#echo "Downloading latest bestiary..."
+#wget https://spreadsheets.google.com/feeds/list/0AhwDI9kFz9SddGFBN1RBc25yU2syZU5DRktXUkpPanc/default/public/basic -o bestiary.xml
 
-echo "Generating encounters app..."
-pdftotext $pdf
-#FIXME
-
+#echo "Generating encounters app..."
+#pdftotext $pdf
 # http://stackoverflow.com/questions/2897619/using-html5-javascript-to-generate-and-save-a-file
+
 
 
