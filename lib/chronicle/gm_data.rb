@@ -10,11 +10,10 @@ class GMData
   end
 
   def self.load_gm_data
+    #FIXME
     initial_image = load_image('/Users/brady/.chronicle/initials.png')
     signature_image = load_image('/Users/brady/.chronicle/signature.png')
     {
-      #FIXME
-      :gm_society_number => '38803',
       :date => Time.new.strftime("%D"),
       :xp_gained_initial => initial_image,
       :prestige_gained_initial => initial_image,

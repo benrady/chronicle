@@ -3,24 +3,26 @@
 bin_dir=`dirname $0`
 
 function print_usage {
-  echo "Usage: $0 roster.csv chronicle_number event_name event_code"
+  echo "Usage: $0 ChronicleSheetInfo.csv [output_dir]"
   exit 1
 }
 
-if [[ $# -ne 4 ]]; then
-  print_usage
-fi
-
 roster_file=$1
-chronicle_number=$2
-event_name=$3
-event_code=$4
+output_dir=${2:-sheets}
 
 if [[ ! -e $roster_file ]]; then
   print_usage
 fi
 
-echo "Generating results from roster file"
+if [[ ! -e $HOME/.chronicle/initials.png ]]; then
+  echo "Warning! $HOME/.chronicle/initials.png not found. Create a 100x100 300dpi PNG file at this location to initial your chronicle sheets"
+fi
+
+if [[ ! -e $HOME/.chronicle/signature.png ]]; then
+  echo "Warning! $HOME/.chronicle/initials.png not found. Create a 500x100 300dpi PNG file at this location to sign your chronicle sheets"
+fi
+
+echo "Writing chronicle sheets to $output_dir"
 mkdir -p sheets
 cat "$roster_file" | jruby --headless $bin_dir/chron $chronicle_number $event_name $event_code 
 

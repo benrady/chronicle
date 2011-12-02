@@ -1,31 +1,7 @@
-class RosterParser
+class TotalCalculator
   ITEM_REGEX = /([^0-9]*)\s(\d*)\s?([gscp]p)/i
-  COLUMNS = [
-    :timestamp, 
-    :player_name, 
-    :society_id, 
-    :starting_xp, 
-    :starting_fame, 
-    :starting_prestige,
-    :starting_gold,
-    :character_name,
-    :buy_list,
-    :sell_list,
-    :email_address,
-    :faction,
-    :skype_id,
-    :day_job,
-    :gold_gained,
-    :xp_gained,
-    :prestige_gained,
-    :prestige_spent
-  ]
 
-  def player_info(cells)
-    info = {}
-    COLUMNS.each do |col|
-      info[col] = cells.shift
-    end
+  def player_info(info)
     calculate_totals(info)
   end
 
@@ -57,8 +33,8 @@ class RosterParser
     case units
       when 'cp' then amount / 100.0
       when 'sp' then amount / 10.0
-      when 'gp' then amount 
       when 'pp' then amount * 10
+      else amount 
     end
   end
 
@@ -78,12 +54,12 @@ class RosterParser
   def parse_trades(info)
     info[:items_bought_desc], info[:items_bought_amount], info[:items_bought_cost] = parse_items(info[:buy_list])
     info[:items_sold_desc], info[:items_sold_amount], info[:items_sold_cost] = parse_items(info[:sell_list])
+    info[:items_bought_total] = info[:items_bought_cost]
+    info[:items_sold_total] = info[:items_sold_cost] / 2
   end
 
   def calculate_totals(info)
     parse_trades(info)
-    info[:items_bought_total] = info[:items_bought_cost]
-    info[:items_sold_total] = info[:items_sold_cost] / 2
     info[:day_job] = info[:day_job?] || 0
     info[:subtotal] = subtotal(info)
     info[:gold_total] = gold_total(info)

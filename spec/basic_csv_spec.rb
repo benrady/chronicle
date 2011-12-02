@@ -11,9 +11,9 @@ describe BasicCSV do
   end
 
   it "joins lines when properly quoted" do
-    BasicCSV.parse_lines(lines).should == [
-      ["1","2","3"],
-      ['I','II','III']
+    BasicCSV.new(lines).each.should == [
+      {:one => "1", :two => "2", :three => "3"},
+      {:one => 'I', :two => 'II', :three => 'III'}
     ]
   end
 end

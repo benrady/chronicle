@@ -1,13 +1,35 @@
-require 'chronicle/roster_parser'
+require 'chronicle/total_calculator'
 
-describe RosterParser do
-  let (:parser) { RosterParser.new }
-  let (:row) { "11/28/2011 13:32:01,Brian,39223-2,0,1,0,149,Henry Rollins,,,brianrady@gmail.com,Andoran,brianrady,,100,1,2,1".split(',') }
+describe TotalCalculator do
+  let (:parser) { TotalCalculator.new }
+  let (:row) {{
+    :timestamp => "11/28/2011 13:32:01",
+    :player_name => "Brian",
+    :society_id => '39223-2',
+    :starting_xp => '0',
+    :starting_fame => '1',
+    :starting_prestige => '0',
+    :starting_gold => '149',
+    :character_name => 'Henry Rollins',
+    :buy_list => '',
+    :sell_list => '',
+    :email_address => 'brianrady@gmail.com',
+    :faction => 'Andoran',
+    :day_job => '', 
+    :gold_gained => '100',
+    :xp_gained => '1',
+    :prestige_gained => '2',
+    :prestige_spent => '1',
+    :gm_society_number => '38803',
+    :chronicle_number => '1',
+    :event_code => '9333',
+    :event => 'WCPFS'
+  }}
   let (:info) { parser.player_info(row) }
 
   it "extracts known columns from the line" do
     info[:player_name].should == 'Brian'
-    info[:skype_id].should == 'brianrady'
+    info[:email_address].should == 'brianrady@gmail.com'
   end
 
   it "Uses zero for a missing day job roll" do
@@ -48,11 +70,14 @@ describe RosterParser do
 
     it "parses the items from a single string" do
       info[:items_bought_desc].should == ['first item', 'second item', 'item']
-      #info[:items_sold_desc].should == ['other item', 'another item']
+      info[:items_sold_desc].should == ['other item', 'another item']
     end
     
     it "calculates the total" do
+      info[:items_bought_cost].should == 123
+      info[:items_sold_cost].should == 25
       info[:items_bought_total].should == 123
+      info[:items_sold_total].should == 12
     end
   end
 end

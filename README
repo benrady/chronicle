@@ -7,9 +7,20 @@ brew install graphicsmagick
 brew install poppler
 brew install tesseract
 
+I like to create a folder for each scenario I regularly GM. In this folder, I keep the scenario pdf, as well as other materials such as the maptools campaign, pogs, maps and other images. The chronicle gem will generate a chronicle sheet
 
-# To use:
+$ chron-prepare AScenarioFile.pdf
 
-chron-prepare AScenarioFile.pdf
-chron-confirm roster.csv
-chron-finish results.json
+Then you can create a simple online signup form by using the template here:
+
+https://docs.google.com/previewtemplate?id=0Ann48md_Q6mkdGtocUJ4NVZhQjVSdWRidzUtU3dKOHc&mode=public
+
+When you finish playing the scenario, fill in the rest of the data in the form (XP, gold, etc..). Then, download the "ChronicleSheetInfo" sheet in the google doc as a CSV file and save in your scenario folder under "rosters".
+
+If you need to mark out any items that the players did not earn, open up your favorite image editor and mark up chronicle_sheet.png. 
+
+Finally, when you're ready to generate the chronicle sheets, run:
+
+chron-finish rosters/PathfinderRemoteSession-1-12-2012.csv
+
+and a sheet for each character will be generated in ChronicleSheets
