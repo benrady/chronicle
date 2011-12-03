@@ -9,7 +9,11 @@ $ brew install graphicsmagick poppler
 
 Once you have these packages installed, then installing the chronicle gem should be as easy as:
 
-$ gem install chronicle
+$ git clone git://github.com/benrady/chronicle.git
+$ cd chronicle
+$ rake install
+
+I'll publish this gem to rubygems soon enough :-)
 
 # Setup:
 
