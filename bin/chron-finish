@@ -3,12 +3,13 @@
 bin_dir=`dirname $0`
 
 function print_usage {
-  echo "Usage: $0 ChronicleSheetInfo.csv [output_dir]"
+  echo "Usage: $0 sheet_info_file scenario_name [output_dir]"
   exit 1
 }
 
 roster_file=$1
-output_dir=${2:-sheets}
+scenario_name=$2
+output_dir=${3:-sheets}
 
 if [[ ! -e $roster_file ]]; then
   print_usage
@@ -24,7 +25,7 @@ fi
 
 echo "Writing chronicle sheets to $output_dir"
 mkdir -p sheets
-cat "$roster_file" | jruby --headless $bin_dir/chron $chronicle_number $event_name $event_code 
+cat "$roster_file" | jruby --headless $bin_dir/chron $scenario_name $output_dir
 
 #echo "Sending links to chronicle sheets"
 # FIXME

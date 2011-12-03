@@ -1,6 +1,7 @@
-#!/bin/bash
 
-# To install:
+# Installation:
+
+Chronicle requires JRuby 1.5 and various gems. The docsplit gem requires GraphicsMagick and Poppler to be installed. If you do not have these installed, first install the <code>graphicsmagick</code> and <code>poppler</code>
 
 brew install ghostscript
 brew install graphicsmagick

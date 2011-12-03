@@ -10,8 +10,8 @@ module Chronicle
   BI = java.awt.image.BufferedImage
   IO = javax.imageio.ImageIO
 
-  def self.write_sheet(sheet, player_name)
-    IO.write(sheet, 'png', java.io.File.new("sheets/#{player_name}.png"))
+  def self.write_sheet(sheet, filename)
+    IO.write(sheet, 'png', java.io.File.new(filename))
   end
 
   def self.detect_schema(g)
@@ -19,7 +19,7 @@ module Chronicle
     SheetSchema::Season3::TWO_TIER
   end
 
-  def self.finish(chronicle_number, event_name, event_code)
+  def self.finish(scenario_name, output_dir)
     parser = TotalCalculator.new
     BasicCSV.parse_lines(STDIN.readlines).each do |row|
       sheet = GMData.load_chronicle_sheet
@@ -28,7 +28,10 @@ module Chronicle
       info = parser.player_info(row).merge(GMData.load_gm_data)
       renderer.draw(info)
       g.dispose
-      write_sheet(sheet, info[:player_name])
+      player_dir = "#{output_dir}/#{info[:society_id]}"
+      FileUtils.mkdir_p(player_dir)
+      filename = "#{player_dir}/#{scenario_name}.png"
+      write_sheet(sheet, filename)
     end
   end
 end
