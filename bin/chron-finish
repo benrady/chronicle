@@ -15,18 +15,6 @@ if [[ ! -e $roster_file ]]; then
   print_usage
 fi
 
-if [[ ! -e $HOME/.chronicle/initials.png ]]; then
-  echo "Warning! $HOME/.chronicle/initials.png not found. Create a 100x100 300dpi PNG file at this location to initial your chronicle sheets"
-fi
-
-if [[ ! -e $HOME/.chronicle/signature.png ]]; then
-  echo "Warning! $HOME/.chronicle/initials.png not found. Create a 500x100 300dpi PNG file at this location to sign your chronicle sheets"
-fi
-
 echo "Writing chronicle sheets to $output_dir"
 mkdir -p sheets
 cat "$roster_file" | jruby --headless $bin_dir/chron $scenario_name $output_dir
-
-#echo "Sending links to chronicle sheets"
-# FIXME
-

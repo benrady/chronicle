@@ -2,7 +2,12 @@ class GMData
   IO = javax.imageio.ImageIO
 
   def self.load_image(file)
-    IO.read(java.io.File.new(file))
+    if not File.exists? file
+      STDERR.puts "Could not find signature file #{file}."
+      nil
+    else
+      IO.read(java.io.File.new(file))
+    end
   end
 
   def self.load_chronicle_sheet
@@ -10,9 +15,8 @@ class GMData
   end
 
   def self.load_gm_data
-    #FIXME
-    initial_image = load_image('/Users/brady/.chronicle/initials.png')
-    signature_image = load_image('/Users/brady/.chronicle/signature.png')
+    initial_image = load_image("#{ENV['HOME']}/.chronicle/initials.png")
+    signature_image = load_image("#{ENV['HOME']}/.chronicle/signature.png")
     {
       :date => Time.new.strftime("%D"),
       :xp_gained_initial => initial_image,
