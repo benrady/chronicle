@@ -3,21 +3,21 @@ Chronicle makes it easy for Pathfinder Society GM's to collect player info and g
 
 # Installation:
 
-Chronicle requires JRuby 1.5 and various gems. The docsplit gem requires GraphicsMagick and Poppler to be installed. If you do not have these installed, first install the <code>graphicsmagick</code> and <code>poppler</code> packaged. I used brew to do this by running:
+Chronicle requires JRuby 1.5 and various gems. The docsplit gem requires GraphicsMagick and Poppler to be installed. If you do not have these installed, first install the `graphicsmagick` and `poppler` packaged. I used brew to do this by running:
 
-$ brew install graphicsmagick poppler
+    $ brew install graphicsmagick poppler
 
 Once you have these packages installed, then installing the chronicle gem should be as easy as:
 
-$ git clone git://github.com/benrady/chronicle.git
-$ cd chronicle
-$ rake install
+    $ git clone git://github.com/benrady/chronicle.git
+    $ cd chronicle
+    $ rake install
 
 I'll publish this gem to rubygems soon enough :-)
 
 # Setup:
 
-To sign and initial your chronicle sheets, you'll need create two images: <code>signature.png</code> and <code>initials.png</code>. These files must be placed in your home directory under the <code>.chronicle</code> subdirectory. The signature file should be 500x100 and the initials file should 100x100. Both should be 300dpi.
+To sign and initial your chronicle sheets, you'll need create two images: `signature.png` and `initials.png`. These files must be placed in your home directory under the `.chronicle` subdirectory. The signature file should be 500x100 and the initials file should 100x100. Both should be 300dpi.
 
 # Usage:
 
@@ -28,9 +28,9 @@ This instructions are probably more detailed than you need, but just in case...
 ## Preparing to Play
 
 0. Open a terminal and change to your scenario directory.
-0. Run <code>chron-prepare AScenarioFile.pdf</code>. 
+0. Run `chron-prepare AScenarioFile.pdf`. 
 
-This should create a file called <code>chronicle_sheet.png</code> in the current directory.
+This should create a file called `chronicle_sheet.png` in the current directory.
 
 ## Creating an Online Signup Form
 0. First, [click here to create](https://docs.google.com/previewtemplate?id=0Ann48md_Q6mkdGtocUJ4NVZhQjVSdWRidzUtU3dKOHc&mode=public) a simple online signup form for your session.
@@ -47,9 +47,9 @@ This should create a file called <code>chronicle_sheet.png</code> in the current
 0. Click "File"&rarr;"Download As..."&rarr;"CSV (Current Sheet)". I like to save this file to a "rosters" subdirectory under my scenario directory.
 0. Open a terminal and change to your scenario directory.
 0. If you need to mark out any items that the players did not earn, open up your favorite image editor and mark up chronicle_sheet.png. 
-0. Run <code>chron-finish rosters/[new roster file].csv</code>. 
+0. Run `chron-finish rosters/[new roster file].csv`. 
 
-Done! A chronicle sheet for each character (including your GM reward character) should have been created in the <code>sheets</code> directory. If you want to generate your sheets to a different directory, you can pass that as the second parameter to <code>chron-finish</code>.
+Done! A chronicle sheet for each character (including your GM reward character) should have been created in the `sheets` directory. If you want to generate your sheets to a different directory, you can pass that as the second parameter to `chron-finish`.
 
 ### About Chronicle
 
