@@ -24,7 +24,6 @@ module Chronicle
     parser = TotalCalculator.new
     puts lines = open(roster_file).readlines
     BasicCSV.new(lines).each do |row|
-      puts row.inspect
       sheet = GMData.load_chronicle_sheet
       g = sheet.getGraphics
       renderer = SheetRenderer.new(g, detect_schema(g))
