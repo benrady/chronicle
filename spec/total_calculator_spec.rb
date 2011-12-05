@@ -79,5 +79,11 @@ describe TotalCalculator do
       info[:items_bought_total].should == 123
       info[:items_sold_total].should == 12
     end
+    
+    it "warns if items are not property formatted" do
+      info[:buy_list] = "not an item"
+      STDERR.should_receive(:puts).with /not an item/
+      parser.parse_trades(info)
+    end
   end
 end

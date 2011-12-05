@@ -43,10 +43,15 @@ class TotalCalculator
     amounts = []
     total = 0
     items.split("\n").each do |item|
-      item_desc, price, units = ITEM_REGEX.match(item).captures
-      descriptions << item_desc
-      amounts << "#{price} #{units}"
-      total += convert_to_gp(price.to_i, units.downcase)
+      m = ITEM_REGEX.match(item)
+      if m
+        item_desc, price, units = m.captures
+        descriptions << item_desc
+        amounts << "#{price} #{units}"
+        total += convert_to_gp(price.to_i, units.downcase)
+      else
+        STDERR.puts "'#{item}' is a not a valid buy/sell entry"
+      end
     end
     return descriptions, amounts, total
   end

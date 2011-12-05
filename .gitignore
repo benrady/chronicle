@@ -1,6 +1,7 @@
 *.gem
 .DS_Store
 .bundle
+test
 Gemfile.lock
 pkg/*
 *.png

@@ -1,4 +1,5 @@
 require 'java'
+require 'fileutils'
 require "chronicle/version"
 require 'chronicle/sheet_renderer'
 require 'chronicle/total_calculator'
@@ -19,9 +20,11 @@ module Chronicle
     SheetSchema::Season3::TWO_TIER
   end
 
-  def self.finish(roster_file, scenario_name, output_dir)
+  def self.finish(roster_file, scenario_name, output_dir='sheets')
     parser = TotalCalculator.new
-    BasicCSV.parse_lines(open(roster_file).readlines).each do |row|
+    puts lines = open(roster_file).readlines
+    BasicCSV.new(lines).each do |row|
+      puts row.inspect
       sheet = GMData.load_chronicle_sheet
       g = sheet.getGraphics
       renderer = SheetRenderer.new(g, detect_schema(g))
@@ -30,6 +33,7 @@ module Chronicle
       g.dispose
       player_dir = "#{output_dir}/#{info[:society_id]}"
       FileUtils.mkdir_p(player_dir)
+      puts "Generating #{player_dir}"
       filename = "#{player_dir}/#{scenario_name}.png"
       write_sheet(sheet, filename)
     end
