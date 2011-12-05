@@ -8,12 +8,10 @@ if [[ ! -e $pdf ]]; then
   exit 1
 fi
 
-if [[ ! -e chronicle_sheet.png ]]; then
-  echo "Extracting chronicle sheet..."
-  page_count=`docsplit length $pdf`
-  docsplit images -d 300 -p $page_count $pdf
-  mv $name*.png chronicle_sheet.png
-fi
+echo "Extracting chronicle sheet..."
+page_count=`docsplit length $pdf`
+docsplit images -d 300 -p $page_count $pdf
+mv $name*.png chronicle_sheet.png
 
 #echo "Downloading latest bestiary..."
 #wget https://spreadsheets.google.com/feeds/list/0AhwDI9kFz9SddGFBN1RBc25yU2syZU5DRktXUkpPanc/default/public/basic -o bestiary.xml

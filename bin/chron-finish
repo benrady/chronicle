@@ -1,20 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env jruby --headless
 
-bin_dir=`dirname $0`
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-function print_usage {
-  echo "Usage: $0 sheet_info_file scenario_name [output_dir]"
+require 'chronicle'
+
+if ARGV.length != 3
+  puts "Not enough arguments"
+  puts ""
+  puts "Usage: chron-prepare sheet_info_file scenario_name [output_dir]"
   exit 1
-}
-
-roster_file=$1
-scenario_name=$2
-output_dir=${3:-sheets}
-
-if [[ ! -e $roster_file ]]; then
-  print_usage
-fi
-
-echo "Writing chronicle sheets to $output_dir"
-mkdir -p sheets
-cat "$roster_file" | jruby --headless $bin_dir/chron $scenario_name $output_dir
+end
+Chronicle.finish(*ARGV)

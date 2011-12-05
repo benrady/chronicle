@@ -19,9 +19,9 @@ module Chronicle
     SheetSchema::Season3::TWO_TIER
   end
 
-  def self.finish(scenario_name, output_dir)
+  def self.finish(roster_file, scenario_name, output_dir)
     parser = TotalCalculator.new
-    BasicCSV.parse_lines(STDIN.readlines).each do |row|
+    BasicCSV.parse_lines(open(roster_file).readlines).each do |row|
       sheet = GMData.load_chronicle_sheet
       g = sheet.getGraphics
       renderer = SheetRenderer.new(g, detect_schema(g))
