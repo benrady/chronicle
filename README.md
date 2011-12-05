@@ -1,4 +1,3 @@
-
 Chronicle makes it easy for Pathfinder Society GM's to collect player info and generate chronicle sheets right from the scenario PDFs.
 
 # Installation:
@@ -53,7 +52,7 @@ Done! A chronicle sheet for each character (including your GM reward character) 
 
 ### About Chronicle
 
-Modit was written by Ben Rady, and is distribuited under the MIT License
+Chronicle was written by Ben Rady, and is distribuited under the MIT License
 
 Copyright (c) 2010 Ben Rady <benrady@gmail.com>
 
