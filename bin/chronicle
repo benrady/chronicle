@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'chronicle'
 
-if ARGV.length < 2
+if ARGV.length < 1
   puts "Not enough arguments"
   puts ""
   puts "Usage: chron-prepare scenario_pdf sheet_info_file [output_dir]"

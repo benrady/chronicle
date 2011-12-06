@@ -42,7 +42,7 @@ Chronicle requires a 300dpi PNG file of the scenario chronicle sheet in order to
 0. Click "File"&rarr;"Download As..."&rarr;"CSV (Current Sheet)". I like to save this file to a "rosters" subdirectory under my scenario directory.
 0. Open a terminal and change to your scenario directory.
 0. If you need to mark out any items that the players did not earn, open up your favorite image editor and mark up the chronicle sheet PNG. 
-0. Run `chronicle scenario.png rosters/[new roster file].csv`. 
+0. Run `chronicle rosters/[new roster file].csv scenario.png`. 
 
 Done! A chronicle sheet for each character (including your GM reward character) should have been created in the `sheets` directory. If you want to generate your sheets to a different directory, you can pass that as the second parameter to `chron-finish`.
 

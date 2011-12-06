@@ -3,15 +3,15 @@ class GMData
 
   def self.load_image(file)
     if not File.exists? file
-      STDERR.puts "Could not find signature file #{file}."
+      STDERR.puts "Could not find image file #{file}."
       nil
     else
       IO.read(java.io.File.new(file))
     end
   end
 
-  def self.load_chronicle_sheet
-    load_image('chronicle_sheet.png')
+  def self.load(chronicle_sheet)
+    load_image(chronicle_sheet)
   end
 
   def self.load_gm_data

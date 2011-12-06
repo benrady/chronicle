@@ -20,21 +20,27 @@ module Chronicle
     SheetSchema::Season3::TWO_TIER
   end
 
-  def self.generate(scenario_pdf, roster_file, output_dir='sheets')
+  def self.generate(roster_file, chronicle_sheet=nil, output_dir='sheets')
     parser = TotalCalculator.new
-    puts lines = open(roster_file).readlines
+    lines = open(roster_file).readlines
     BasicCSV.new(lines).each do |row|
-      sheet = GMData.load_chronicle_sheet
-      g = sheet.getGraphics
-      renderer = SheetRenderer.new(g, detect_schema(g))
-      info = parser.player_info(row).merge(GMData.load_gm_data)
-      renderer.draw(info)
-      g.dispose
-      player_dir = "#{output_dir}/#{info[:society_id]}"
-      FileUtils.mkdir_p(player_dir)
-      puts "Generating #{player_dir}"
-      filename = "#{player_dir}/#{scenario_name}.png"
-      write_sheet(sheet, filename)
+      if chronicle_sheet
+        info = parser.player_info(row).merge(GMData.load_gm_data)
+        sheet = GMData.load(chronicle_sheet)
+        exit 1 unless sheet
+        g = sheet.getGraphics
+        renderer = SheetRenderer.new(g, detect_schema(g))
+        renderer.draw(info)
+        g.dispose
+        player_dir = "#{output_dir}/#{info[:society_id]}"
+        FileUtils.mkdir_p(player_dir)
+        scenario_name = File.basename(chronicle_sheet, '.png')
+        filename = "#{player_dir}/#{scenario_name}.png"
+        puts "Generating #{filename}"
+        write_sheet(sheet, filename)
+      else
+        puts row.inspect
+      end
     end
   end
 end
