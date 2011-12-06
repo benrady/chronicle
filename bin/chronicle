@@ -7,7 +7,7 @@ require 'chronicle'
 if ARGV.length < 2
   puts "Not enough arguments"
   puts ""
-  puts "Usage: chron-prepare sheet_info_file scenario_name [output_dir]"
+  puts "Usage: chron-prepare scenario_pdf sheet_info_file [output_dir]"
   exit 1
 end
-Chronicle.finish(*ARGV)
+Chronicle.generate(*ARGV)

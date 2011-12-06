@@ -20,7 +20,7 @@ module Chronicle
     SheetSchema::Season3::TWO_TIER
   end
 
-  def self.finish(roster_file, scenario_name, output_dir='sheets')
+  def self.generate(scenario_pdf, roster_file, output_dir='sheets')
     parser = TotalCalculator.new
     puts lines = open(roster_file).readlines
     BasicCSV.new(lines).each do |row|
