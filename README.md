@@ -30,9 +30,9 @@ This instructions are probably more detailed than you need, but just in case...
 
 ## Extracting the Chronicle Sheet
 
-Chronicle requires a 300dpi PNG file of the scenario chronicle sheet in order to fill it out. There are a number of ways to create this, including:
+Chronicle requires a 600 pixel/inch PNG file of the scenario chronicle sheet in order to fill it out. There are a number of ways to create this, including:
 
-* In OS X Preview, go to the last page of the scenario pdf and click "File"&rarr;"Save As...", then select Format: PNG and Resolution: 300.
+* In OS X Preview, go to the last page of the scenario pdf and click "File"&rarr;"Save As...", then select Format: PNG and Resolution: 600 (pixels per inch).
 * Using [Docsplit](http://documentcloud.github.com/docsplit/), run `docsplit images -d 300 scenario.pdf`. You can use the `-p` option to select only the last page if you wish.
 
 ## Filling Out the Chronicle Sheet
