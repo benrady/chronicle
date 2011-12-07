@@ -15,11 +15,6 @@ module Chronicle
     IO.write(sheet, 'png', java.io.File.new(filename))
   end
 
-  def self.detect_schema(g)
-    # Should be able to detect the schema based on the color of a few key pixels.
-    SheetSchema::Season3::TWO_TIER
-  end
-
   def self.generate(roster_file, chronicle_sheet=nil, output_dir='sheets')
     parser = TotalCalculator.new
     lines = open(roster_file).readlines
@@ -29,7 +24,7 @@ module Chronicle
         sheet = GMData.load(chronicle_sheet)
         exit 1 unless sheet
         g = sheet.getGraphics
-        renderer = SheetRenderer.new(g, detect_schema(g))
+        renderer = SheetRenderer.new(g, SheetSchema.find(sheet))
         renderer.draw(info)
         g.dispose
         player_dir = "#{output_dir}/#{info[:society_id]}"

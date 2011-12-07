@@ -3,7 +3,7 @@ class GMData
 
   def self.load_image(file)
     if not File.exists? file
-      STDERR.puts "Could not find image file #{file}."
+      STDERR.puts "Could not find image file #{file}"
       nil
     else
       IO.read(java.io.File.new(file))
@@ -23,7 +23,8 @@ class GMData
       :prestige_gained_initial => initial_image,
       :gold_gained_initial => initial_image,
       :day_job_initial => initial_image,
-      :gm_signature => signature_image
+      :gm_signature => signature_image,
+      :gold_spent => 0
     }
   end
   

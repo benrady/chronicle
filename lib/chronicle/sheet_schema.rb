@@ -1,133 +1,161 @@
 
+require 'java'
+
 module SheetSchema
-  module Season2
-    TWO_TIER = {}
-    THREE_TIER = {}
-  end
+  SMALL_FONT = 36
+  LARGE_FONT = 64
+  IMAGE_OFFSET = 85
 
-  module Season3
-    RIGHT_COLUMN_EDGE = 2150
-    RIGHT_COLUMN_INSET = 2055
-    RIGHT_COLUMN_OUTSET = 2250
-    HEADER_BASELINE = 600
-    IMAGE_OFFSET = 85
-    SMALL_FONT = 36
-    LARGE_FONT = 64
+  RIGHT_COLUMN_EDGE = 2150
+  RIGHT_COLUMN_INSET = 2055
+  RIGHT_COLUMN_OUTSET = 2250
+  HEADER_BASELINE = 600
 
-    TWO_TIER = {
-      :player_name => [:text, {
-        :coords => [169, HEADER_BASELINE], :font_size => SMALL_FONT
-      }],
-      :character_name => [:text, {
-        :coords => [692, HEADER_BASELINE], :font_size => SMALL_FONT
-      }],
-      :society_number => [:text, {
-        :coords => [1225, HEADER_BASELINE], :font_size => SMALL_FONT
-      }],
-      :character_number => [:text, {
-        :coords => [1522, HEADER_BASELINE], :font_size => SMALL_FONT
-      }],
-      :faction => [:text, {
-        :coords => [1680, HEADER_BASELINE], :font_size => SMALL_FONT
-      }],
-      :chronicle_number => [:text, {
-        :coords => [RIGHT_COLUMN_EDGE, 255], :font_size => LARGE_FONT
-      }],
-      :slow => [:check, [2115, 333]],
-      :normal => [:check, [2240, 333]],
-      :starting_xp => [:text, {
-        :coords => [RIGHT_COLUMN_EDGE, 790], :font_size => LARGE_FONT
-      }],
-      :xp_gained => [:text, {
-        :coords => [RIGHT_COLUMN_EDGE, 928], :font_size => LARGE_FONT
-      }],
-      :xp_gained_initial => [:image, [2265, 928-IMAGE_OFFSET]],
-      :xp_total => [:text, {
-        :coords => [RIGHT_COLUMN_EDGE, 1067], :font_size => LARGE_FONT
-      }],
-      :starting_fame => [:text, {
-        :coords => [RIGHT_COLUMN_INSET, 1325], :font_size => LARGE_FONT
-      }],
-      :starting_prestige => [:text, {
-        :coords => [RIGHT_COLUMN_OUTSET, 1325], :font_size => LARGE_FONT
-      }],
-      :prestige_gained => [:text, {
-        :coords => [RIGHT_COLUMN_EDGE, 1464], :font_size => LARGE_FONT
-      }],
-      :prestige_gained_initial => [:image, [2265, 1464-IMAGE_OFFSET]],
-      :prestige_spent => [:text, {
-        :coords => [RIGHT_COLUMN_EDGE, 1602], :font_size => LARGE_FONT
-      }],
-      :final_fame => [:text, {
-        :coords => [RIGHT_COLUMN_INSET, 1740], :font_size => LARGE_FONT
-      }],
-      :final_prestige => [:text, {
-        :coords => [RIGHT_COLUMN_OUTSET, 1740], :font_size => LARGE_FONT
-      }],
-      :starting_gold => [:text, {
-        :coords => [RIGHT_COLUMN_INSET, 1979], :font_size => LARGE_FONT
-      }],
-      :gold_gained => [:text, {
-        :coords => [RIGHT_COLUMN_INSET, 2117], :font_size => LARGE_FONT
-      }],
-      :gold_gained_initial => [:image, [2265, 2117-IMAGE_OFFSET]],
-      :day_job => [:text, {
-        :coords => [RIGHT_COLUMN_INSET, 2256], :font_size => LARGE_FONT
-      }],
-      :day_job_initial => [:image, [2265, 2256-IMAGE_OFFSET]],
-      :items_sold_total => [:text, {
-        :coords => [RIGHT_COLUMN_INSET, 2395], :font_size => LARGE_FONT
-      }],
-      :subtotal => [:text, {
-        :coords => [RIGHT_COLUMN_INSET, 2532], :font_size => LARGE_FONT
-      }],
-      :items_bought_total => [:text, {
-        :coords => [RIGHT_COLUMN_INSET, 2670], :font_size => LARGE_FONT
-      }],
-      :gold_total => [:text, {
-        :coords => [RIGHT_COLUMN_INSET, 2829], :font_size => LARGE_FONT
-      }],
-      :event => [:text, {
-        :coords => [200, 3054], :font_size => SMALL_FONT
-      }],
-      :event_code => [:text, {
-        :coords => [635, 3054], :font_size => SMALL_FONT
-      }],
-      :date => [:text, {
-        :coords => [1000, 3054], :font_size => SMALL_FONT
-      }],
-      :gm_signature => [:image, [1304, 3054-IMAGE_OFFSET]],
-      :gm_society_number => [:text, {
-        :coords => [2075, 3054], :font_size => SMALL_FONT
-      }],
-      :items_sold_desc => [:list, {
-        :coords => [181,2539],
-        :height => 2571-2539,
-        :size => 7
-      }],
-      :items_sold_amount => [:list, {
-        :coords => [795,2539],
-        :height => 2571-2539,
-        :size => 7
-      }],
-      :items_sold_cost => [:text, {
-        :coords => [815, 2859], :font_size => SMALL_FONT
-      }],
-      :items_bought_desc => [:list, {
-        :coords => [1085,2539],
-        :height => 2571-2539,
-        :size => 7
-      }],
-      :items_bought_amount => [:list, {
-        :coords => [1700,2539],
-        :height => 2571-2539,
-        :size => 7
-      }],
-      :items_bought_cost => [:text, {
-        :coords => [1725, 2859], :font_size => SMALL_FONT
+  class << self
+
+    def find(g)
+      # This is probably a better indicator of two vs three tier
+      if g.getRGB(2045, 520) == Color.black.getRGB
+        return SheetSchema.season2[:three_tier]
+      end
+      return SheetSchema.season3[:two_tier]
+    end
+
+    def season2
+      list_first = 2493
+      list_second = 2524
+      {
+        :three_tier => {
+          :starting_xp => large_text_amount(770),
+          :xp_total => large_text_amount(1020),
+          :starting_prestige => large_text_amount(1279),
+          :prestige_gained => large_text_amount(1416),
+          :prestige_gained_initial => initials(1416),
+          :final_prestige => large_text_amount(1550),
+          :starting_gold => large_text_amount(1795),
+          :gold_gained => large_text_amount(1931),
+          :gold_gained_initial => initials(1931),
+          :items_sold_total => large_text_amount(2068),
+          :subtotal => large_text_amount(2208),
+          :items_bought_total => large_text_amount(2345),
+          :gold_spent => large_text_amount(2620),
+          :gold_total => large_text_amount(2758),
+          :items_sold_desc => list(181, list_first, list_second, 7),
+          :items_sold_amount => list(795, list_first, list_second, 7),
+          :items_sold_cost => [:text, {
+            :coords => [815, 2812], :font_size => SMALL_FONT
+          }],
+          :items_bought_desc => list(1085, list_first, list_second, 7),
+          :items_bought_amount => list(1700, list_first, list_second, 7),
+          :items_bought_cost => [:text, {
+            :coords => [1725, 2812], :font_size => SMALL_FONT
+          }]
+        }.merge(gm_info).
+          merge(header)
+      }
+    end
+
+    def season3
+      {
+        :two_tier => {
+          :slow => [:check, [2115, 333]],
+          :normal => [:check, [2240, 333]],
+          :starting_xp => large_text_amount(790),
+          :xp_gained => large_text_amount(928),
+          :xp_gained_initial => initials(928),
+          :xp_total => large_text_amount(1067),
+          :starting_fame => large_text_amount(1375),
+          :starting_prestige => large_text_amount(1325),
+          :prestige_gained => large_text_amount(1464),
+          :prestige_gained_initial => initials(1464),
+          :prestige_spent => large_text_amount(1602),
+          :final_fame => large_text_amount(1740),
+          :final_prestige => large_text_amount(1740),
+          :starting_gold => large_text_amount(1979),
+          :gold_gained => large_text_amount(2117),
+          :gold_gained_initial => initials(2117),
+          :day_job => large_text_amount(2256),
+          :day_job_initial => initials(2256),
+          :items_sold_total => large_text_amount(2395),
+          :subtotal => large_text_amount(2532),
+          :items_bought_total => large_text_amount(2670),
+          :gold_total => large_text_amount(2829),
+          :items_sold_desc => list(181, 2539, 2571, 7),
+          :items_sold_amount => list(795, 2539, 2571, 7),
+          :items_sold_cost => [:text, {
+            :coords => [815, 2859], :font_size => SMALL_FONT
+          }],
+          :items_bought_desc => list(1085, 2539, 2571, 7),
+          :items_bought_amount => list(1700, 2539, 2571, 7),
+          :items_bought_cost => [:text, {
+            :coords => [1725, 2859], :font_size => SMALL_FONT
+          }]
+        }.merge(gm_info).
+          merge(header)
+      }
+    end
+
+    private 
+
+    def header(baseline=HEADER_BASELINE)
+      {
+        :player_name => [:text, {
+          :coords => [169, baseline], :font_size => SMALL_FONT
+        }],
+        :character_name => [:text, {
+          :coords => [692, baseline], :font_size => SMALL_FONT
+        }],
+        :society_number => [:text, {
+          :coords => [1225, baseline], :font_size => SMALL_FONT
+        }],
+        :character_number => [:text, {
+          :coords => [1522, baseline], :font_size => SMALL_FONT
+        }],
+        :faction => [:text, {
+          :coords => [1680, baseline], :font_size => SMALL_FONT
+        }]
+      }
+    end
+
+    def gm_info
+      {
+        :chronicle_number => large_text_centered(255),
+        :event => small_font_text(200, 3054),
+        :event_code => small_font_text(635, 3054),
+        :date => small_font_text(1000, 3054),
+        :gm_signature => [:image, [1304, 3054-IMAGE_OFFSET]],
+        :gm_society_number => small_font_text(2075, 3054),
+      }
+    end
+
+    def small_font_text(left, baseline)
+      [:text, {
+        :coords => [left, baseline], :font_size => SMALL_FONT
       }]
-    }
-    THREE_TIER = {}
+    end
+
+    def initials(baseline)
+      [:image, [2265, baseline-IMAGE_OFFSET]]
+    end
+
+    def large_text_centered(baseline)
+      [:text, {
+        :coords => [RIGHT_COLUMN_EDGE, baseline], :font_size => LARGE_FONT
+      }]
+    end
+
+    def large_text_amount(baseline)
+      [:text, {
+        :coords => [RIGHT_COLUMN_INSET, baseline], :font_size => LARGE_FONT
+      }]
+    end
+
+    def list(left, first_baseline, second_baseline, count)
+      [:list, {
+        :coords => [left,first_baseline],
+        :height => second_baseline-first_baseline,
+        :size => count
+      }]
+    end
   end
 end
-
