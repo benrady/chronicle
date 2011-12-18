@@ -1,5 +1,5 @@
 class TotalCalculator
-  ITEM_REGEX = /([^0-9]*)\s(\d*)\s?([gscp]p)/i
+  ITEM_REGEX = /(.+)\s(\d*)\s?([gscp]p)/i
 
   def player_info(info)
     calculate_totals(info)
