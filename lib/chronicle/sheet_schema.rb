@@ -10,6 +10,7 @@ module SheetSchema
   RIGHT_COLUMN_INSET = 2055
   RIGHT_COLUMN_OUTSET = 2250
   HEADER_BASELINE = 600
+  LIST_COUNT = 7
 
   class << self
 
@@ -40,13 +41,13 @@ module SheetSchema
           :items_bought_total => large_text_amount(2345),
           :gold_spent => large_text_amount(2620),
           :gold_total => large_text_amount(2758),
-          :items_sold_desc => list(181, list_first, list_second, 7),
-          :items_sold_amount => list(795, list_first, list_second, 7),
+          :items_sold_desc => list(181, list_first, list_second),
+          :items_sold_amount => list(795, list_first, list_second),
           :items_sold_cost => [:text, {
             :coords => [815, 2812], :font_size => SMALL_FONT
           }],
-          :items_bought_desc => list(1085, list_first, list_second, 7),
-          :items_bought_amount => list(1700, list_first, list_second, 7),
+          :items_bought_desc => list(1085, list_first, list_second),
+          :items_bought_amount => list(1700, list_first, list_second),
           :items_bought_cost => [:text, {
             :coords => [1725, 2812], :font_size => SMALL_FONT
           }]
@@ -56,6 +57,8 @@ module SheetSchema
     end
 
     def season3
+      list_first = 2539
+      list_second = 2571
       {
         :two_tier => {
           :slow => [:check, [2115, 333]],
@@ -80,13 +83,13 @@ module SheetSchema
           :subtotal => large_text_amount(2532),
           :items_bought_total => large_text_amount(2670),
           :gold_total => large_text_amount(2829),
-          :items_sold_desc => list(181, 2539, 2571, 7),
-          :items_sold_amount => list(795, 2539, 2571, 7),
+          :items_sold_desc => list(181, list_first, list_second),
+          :items_sold_amount => list(795, list_first, list_second),
           :items_sold_cost => [:text, {
             :coords => [815, 2859], :font_size => SMALL_FONT
           }],
-          :items_bought_desc => list(1085, 2539, 2571, 7),
-          :items_bought_amount => list(1700, 2539, 2571, 7),
+          :items_bought_desc => list(1085, list_first, list_second),
+          :items_bought_amount => list(1700, list_first, list_second),
           :items_bought_cost => [:text, {
             :coords => [1725, 2859], :font_size => SMALL_FONT
           }]
@@ -150,11 +153,11 @@ module SheetSchema
       }]
     end
 
-    def list(left, first_baseline, second_baseline, count)
+    def list(left, first_baseline, second_baseline)
       [:list, {
         :coords => [left,first_baseline],
         :height => second_baseline-first_baseline,
-        :size => count
+        :size => LIST_COUNT
       }]
     end
   end

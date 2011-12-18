@@ -7,7 +7,7 @@ require 'chronicle'
 if ARGV.length < 1
   puts "Not enough arguments"
   puts ""
-  puts "Usage: chron-prepare roster.csv [chronicle_sheet.png] [output_dir]"
+  puts "Usage: chronicle roster.csv [chronicle_sheet.png] [output_dir]"
   exit 1
 end
 Chronicle.generate(*ARGV)
