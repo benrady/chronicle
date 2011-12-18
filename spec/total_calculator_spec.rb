@@ -62,16 +62,16 @@ describe TotalCalculator do
     it "allows a leading amount" do
       result = parser.parse_items("3 potions of cure light wounds 50gp")
       descriptions, amounts, total = result
-      descriptions.first.should == '3 portions of cure light wounds'
-      amounts.first.should == 50
+      descriptions.first.should == '3 potions of cure light wounds'
+      amounts.first.should == '50 gp'
       total.should == 50
     end
   end
 
   describe "when items are bought and sold" do
     let (:info) {{
-      :buy_list => "first item 20gp\nsecond item 30 sp\nitem 10PP",
-      :sell_list => "other item 10gp\nanother item 15 gp"
+      :buy_list => "first item 20gp\nsecond item 30sp\nitem 10PP",
+      :sell_list => "other item 10gp\nanother item 15gp"
     }}
 
     before( :each ) do
