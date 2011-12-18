@@ -44,7 +44,7 @@ Chronicle requires a 300 pixel/inch PNG file of the scenario chronicle sheet in 
 0. If you need to mark out any items that the players did not earn, open up your favorite image editor and mark up the chronicle sheet PNG. 
 0. Run `chronicle rosters/[new roster file].csv scenario.png`. 
 
-Done! A chronicle sheet for each character (including your GM reward character) should have been created in the `sheets` directory. If you want to generate your sheets to a different directory, you can pass that as the second parameter to `chron-finish`.
+Done! A chronicle sheet for each character (including your GM reward character) should have been created in the `sheets` directory. If you want to generate your sheets to a different directory, you can pass that as the last parameter to chronicle.
 
 ### About Chronicle
 
