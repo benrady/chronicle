@@ -67,13 +67,13 @@ module SheetSchema
           :xp_gained => large_text_amount(928),
           :xp_gained_initial => initials(928),
           :xp_total => large_text_amount(1067),
-          :starting_fame => large_text_amount(1375),
-          :starting_prestige => large_text_amount(1325),
+          :starting_fame => large_text_amount(1325),
+          :starting_prestige => large_text_amount(1325, RIGHT_COLUMN_OUTSET),
           :prestige_gained => large_text_amount(1464),
           :prestige_gained_initial => initials(1464),
           :prestige_spent => large_text_amount(1602),
           :final_fame => large_text_amount(1740),
-          :final_prestige => large_text_amount(1740),
+          :final_prestige => large_text_amount(1740, RIGHT_COLUMN_OUTSET),
           :starting_gold => large_text_amount(1979),
           :gold_gained => large_text_amount(2117),
           :gold_gained_initial => initials(2117),
@@ -147,9 +147,9 @@ module SheetSchema
       }]
     end
 
-    def large_text_amount(baseline)
+    def large_text_amount(baseline, inset=RIGHT_COLUMN_INSET)
       [:text, {
-        :coords => [RIGHT_COLUMN_INSET, baseline], :font_size => LARGE_FONT
+        :coords => [inset, baseline], :font_size => LARGE_FONT
       }]
     end
 
