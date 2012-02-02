@@ -16,7 +16,7 @@ module SheetSchema
 
     def find(g)
       # This is probably a better indicator of two vs three tier
-      if g.getRGB(2045, 520) == Color.black.getRGB
+      if g.getRGB(2045, 505) == Color.black.getRGB
         return SheetSchema.season2[:three_tier]
       end
       return SheetSchema.season3[:two_tier]
