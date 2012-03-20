@@ -1,4 +1,3 @@
-
 require 'java'
 
 module SheetSchema
@@ -15,6 +14,10 @@ module SheetSchema
   class << self
 
     def find(g)
+      # Season 0: Probably don't need both checks 
+      if g.getRGB(2350, 135) == Color.black.getRGB && g.getRGB(2350, 600) == Color.black.getRGB
+        return SheetSchema.season0[:two_tier]
+      end
       # This is probably a better indicator of two vs three tier
       if g.getRGB(2045, 505) == Color.black.getRGB
         return SheetSchema.season2[:three_tier]
@@ -22,6 +25,40 @@ module SheetSchema
       return SheetSchema.season3[:two_tier]
     end
 
+    def season0
+      list_first = 2493
+      list_second = 2524
+      {
+        :two_tier => {
+          :starting_xp => large_text_amount(720),
+          :xp_total => large_text_amount(970),
+          :starting_prestige => large_text_amount(1249),
+          :prestige_gained => large_text_amount(1386),
+          :prestige_gained_initial => initials(1386),
+          :final_prestige => large_text_amount(1520),
+          :starting_gold => large_text_amount(1795),
+          :gold_gained => large_text_amount(1931),
+          :gold_gained_initial => initials(1931),
+          :items_sold_total => large_text_amount(2068),
+          :subtotal => large_text_amount(2208),
+          :items_bought_total => large_text_amount(2345),
+          :gold_spent => large_text_amount(2620),
+          :gold_total => large_text_amount(2758),
+          :items_sold_desc => list(181, list_first, list_second),
+          :items_sold_amount => list(795, list_first, list_second),
+          :items_sold_cost => [:text, {
+            :coords => [815, 2812], :font_size => SMALL_FONT
+          }],
+          :items_bought_desc => list(1085, list_first, list_second),
+          :items_bought_amount => list(1700, list_first, list_second),
+          :items_bought_cost => [:text, {
+            :coords => [1725, 2812], :font_size => SMALL_FONT
+          }]
+        }.merge(gm_info).
+          merge(header)
+      }
+    end
+    
     def season2
       list_first = 2493
       list_second = 2524
