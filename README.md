@@ -2,7 +2,9 @@ Chronicle makes it easy for Pathfinder Society GM's to collect player info and g
 
 # Installation:
 
-Chronicle requires JRuby 1.5. Installing the chronicle gem should be as easy as:
+Chronicle requires JRuby 1.5. To install the gem, you'll also need bundler and rake (which you can install as gems). 
+
+Once you have the pre-requisites, installing the chronicle gem should be as easy as:
 
     $ git clone git://github.com/benrady/chronicle.git
     $ cd chronicle
