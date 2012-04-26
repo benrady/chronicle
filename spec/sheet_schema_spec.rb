@@ -10,15 +10,20 @@ describe SheetSchema do
     @g.fillRect(0, 0, 2513, 3263)
   end
 
+  it "detects season zero sheets" do
+    @g.setColor(Color.black)
+    @g.fillRect(2350, 135, 1, 1)
+    @g.fillRect(2350, 600, 1, 1)
+    SheetSchema.find(image).should == SheetSchema::season0[:two_tier]
+  end
+
   it "detects season two, three tier sheets" do
     @g.setColor(Color.black)
-    @g.fillRect(2045, 520, 1, 1)
+    @g.fillRect(2045, 505, 1, 1)
     SheetSchema.find(image).should == SheetSchema::season2[:three_tier]
   end
 
-  it "detects season three, two tier sheets" do
-    @g.setColor(Color.white)
-    @g.fillRect(2045, 520, 1, 1)
+  it "Uses season 3, two tier sheets by default" do
     SheetSchema.find(image).should == SheetSchema.season3[:two_tier]
   end
 
@@ -26,5 +31,4 @@ describe SheetSchema do
     SheetSchema.season2[:three_tier][:gm_society_number].should_not be nil
     SheetSchema.season3[:two_tier][:gm_society_number].should_not be nil
   end
-  
 end

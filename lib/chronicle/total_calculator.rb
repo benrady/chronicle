@@ -65,7 +65,12 @@ class TotalCalculator
 
   def calculate_totals(info)
     parse_trades(info)
-    info[:day_job] = info[:day_job?] || 0
+    info[:day_job] = 
+      if info[:day_job].empty? 
+        0
+      else
+        info[:day_job]
+      end
     info[:subtotal] = subtotal(info)
     info[:gold_total] = gold_total(info)
     info[:final_fame] = final_fame(info)
