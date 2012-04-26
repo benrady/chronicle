@@ -37,6 +37,14 @@ Chronicle requires a 300 pixel/inch PNG file of the scenario chronicle sheet in 
 * In OS X Preview, go to the last page of the scenario pdf and click "File"&rarr;"Save As...", then select Format: PNG and Resolution: 300 (pixels per inch).
 * Using [Docsplit](http://documentcloud.github.com/docsplit/), run `docsplit images -d 300 scenario.pdf`. You can use the `-p` option to select only the last page if you wish.
 
+## Formatting Notes
+
+Chronicle is still a little rough, and it a bit particular about the formatting of values in the CSV. This is especially true for the items bought/sold list. Each item in the list should take the form of:
+
+    <item description> (amount)(units)
+    
+For example, a wayfinder could be listed as: "Standard Wayfinder 250gp". Units can be one of "gp", "sp", or "cp". For things that cost prestige, I generally note that in the description and list the cost as 0gp. 
+
 ## Filling Out the Chronicle Sheet
 0. Go to https://docs.google.com and open your registration form spreadsheet.
 0. Select the "Signups" sheet and review the information to ensure it is correct.
