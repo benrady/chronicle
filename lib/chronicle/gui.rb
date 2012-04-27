@@ -146,7 +146,12 @@ module Chronicle
     end
 
     def generate_sheets
-      # FIXME
+      c = JFileChooser.new
+      c.file_selection_mode = JFileChooser::DIRECTORIES_ONLY
+      if c.showOpenDialog(@frame) == JFileChooser::APPROVE_OPTION
+        output_dir = c.getSelectedFile.getAbsolutePath
+        @generator.write_sheets_to(output_dir)
+      end
     end
 
     def load_roster

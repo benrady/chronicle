@@ -46,16 +46,30 @@ module Chronicle
       g.dispose
     end
 
-    def write_sheet(sheet_image)
+    def write_sheet(output_dir, info)
+      sheet_image = copy_image(@sheet)
+      g = sheet_image.graphics
+      render_sheet(info, g)
+      g.dispose
+
       player_dir = "#{output_dir}/#{info[:society_id]}"
+
       FileUtils.mkdir_p(player_dir)
-      scenario_name = File.basename(chronicle_sheet, '.png')
+      scenario_name = File.basename("foo", '.png') # FIXME
       filename = "#{player_dir}/#{scenario_name}.png"
-      write_sheet(sheet_image, filename)
+      IO.write(sheet_image, 'png', java.io.File.new(filename))
     end
 
-    def write_sheet(sheet, filename)
-      IO.write(sheet, 'png', java.io.File.new(filename))
+    def write_sheets_to(output_dir)
+      @roster.each do |info|
+        write_sheet(output_dir, info)
+      end
+    end
+
+    def copy_image(bi)
+      cm = bi.color_model
+      raster = bi.copyData(nil)
+      return BI.new(cm, raster, cm.isAlphaPremultiplied, nil)
     end
   end
 end
