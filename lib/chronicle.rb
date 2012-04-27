@@ -11,36 +11,51 @@ require 'chronicle/basic_csv'
 module Chronicle
   BI = java.awt.image.BufferedImage
   IO = javax.imageio.ImageIO
-
-  def self.write_sheet(sheet, filename)
-    IO.write(sheet, 'png', java.io.File.new(filename))
-  end
+  XForm = java.awt.geom.AffineTransform
 
   def self.start
-    w = Chronicle::GUI.new
+    g = Generator.new
+    g.load_roster("test/roster.csv")
+    g.load_sheet("test/Season3/3-FirstSteps3_AVisionOfBetrayal.png")
+    Chronicle::GUI.new(g)
   end
 
-  def self.generate(roster_file, chronicle_sheet=nil, output_dir='sheets')
-    parser = TotalCalculator.new
-    lines = open(roster_file).readlines
-    BasicCSV.new(lines).each do |row|
-      if chronicle_sheet
-        info = parser.player_info(row).merge(GMData.load_gm_data)
-        sheet = GMData.load(chronicle_sheet)
-        exit 1 unless sheet
-        g = sheet.getGraphics
-        renderer = SheetRenderer.new(g, SheetSchema.find(sheet))
-        renderer.draw(info)
-        g.dispose
-        player_dir = "#{output_dir}/#{info[:society_id]}"
-        FileUtils.mkdir_p(player_dir)
-        scenario_name = File.basename(chronicle_sheet, '.png')
-        filename = "#{player_dir}/#{scenario_name}.png"
-        puts "Generating #{filename}"
-        write_sheet(sheet, filename)
-      else
-        puts row.inspect
+  class Generator
+    attr_accessor :roster
+
+    def initialize
+      @parser = TotalCalculator.new
+    end
+
+    def load_roster(roster_uri)
+      lines = open(roster_uri).readlines
+      @roster = []
+      BasicCSV.new(lines).each do |row|
+        @roster << @parser.player_info(row).merge(GMData.load_gm_data)
       end
+    end
+    
+    def load_sheet(sheet_uri)
+      @sheet = GMData.load(sheet_uri)
+    end
+
+    def render_sheet(info, g)
+      renderer = SheetRenderer.new(g, SheetSchema.find(@sheet))
+      g.drawImage(@sheet, nil, nil)
+      renderer.draw(info)
+      g.dispose
+    end
+
+    def write_sheet(sheet_image)
+      player_dir = "#{output_dir}/#{info[:society_id]}"
+      FileUtils.mkdir_p(player_dir)
+      scenario_name = File.basename(chronicle_sheet, '.png')
+      filename = "#{player_dir}/#{scenario_name}.png"
+      write_sheet(sheet_image, filename)
+    end
+
+    def write_sheet(sheet, filename)
+      IO.write(sheet, 'png', java.io.File.new(filename))
     end
   end
 end
