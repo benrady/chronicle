@@ -1,13 +1,11 @@
-#!/usr/bin/env jruby --headless
+#!/usr/bin/env jruby
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'chronicle'
 
 if ARGV.length < 1
-  puts "Not enough arguments"
-  puts ""
-  puts "Usage: chronicle roster.csv [chronicle_sheet.png] [output_dir]"
-  exit 1
+  Chronicle.start
+else
+  Chronicle.generate(*ARGV)
 end
-Chronicle.generate(*ARGV)

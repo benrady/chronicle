@@ -5,6 +5,7 @@ require 'chronicle/sheet_renderer'
 require 'chronicle/total_calculator'
 require 'chronicle/sheet_schema'
 require 'chronicle/gm_data'
+require 'chronicle/gui'
 require 'chronicle/basic_csv'
 
 module Chronicle
@@ -13,6 +14,10 @@ module Chronicle
 
   def self.write_sheet(sheet, filename)
     IO.write(sheet, 'png', java.io.File.new(filename))
+  end
+
+  def self.start
+    w = Chronicle::GUI.new
   end
 
   def self.generate(roster_file, chronicle_sheet=nil, output_dir='sheets')
