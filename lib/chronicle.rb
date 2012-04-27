@@ -42,7 +42,7 @@ module Chronicle
     def render_sheet(info, g)
       renderer = SheetRenderer.new(g, SheetSchema.find(@sheet))
       g.drawImage(@sheet, nil, nil)
-      renderer.draw(info)
+      renderer.draw(info) if info
       g.dispose
     end
 
