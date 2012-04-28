@@ -4,6 +4,7 @@ require 'yaml'
 require 'chronicle/roster_table_model'
 require 'chronicle/preview_panel'
 require 'chronicle/settings'
+require 'chronicle/ext_file_filter'
 
 java_import java.awt.BorderLayout
 java_import java.awt.Color
@@ -24,26 +25,8 @@ java_import javax.swing.JPanel
 java_import javax.swing.JScrollPane
 java_import javax.swing.ListSelectionModel
 java_import javax.swing.border.BevelBorder
-java_import javax.swing.filechooser.FileFilter
 
 module Chronicle
-
-  # FIXME move to seperate file
-  class ExtFileFilter < FileFilter
-    def initialize(ext, desc)
-      super()
-      @ext = ext
-      @desc = desc
-    end
-
-    def accept(f)
-      f.to_s.downcase.end_with? @ext
-    end
-
-    def getDescription
-      @desc
-    end
-  end
 
   class GUI 
     def initialize(generator)
@@ -79,8 +62,8 @@ module Chronicle
 
     def create_frame
       f = javax.swing.JFrame.new("Chronicle")
-      f.setSize(692, 1024) 
-      #f.setLocationRelativeTo(nil) centers the window FIXME
+      f.setSize(1024, 768) 
+      f.setLocationRelativeTo(nil) # centers the window
       f.defaultCloseOperation = javax.swing.JFrame::EXIT_ON_CLOSE
       return f
     end
@@ -113,7 +96,7 @@ module Chronicle
     end
 
     def load_roster
-      choose_file(:sheet_dir, ".csv", "Roster CSV file") do |file|
+      choose_file(:roster_dir, ".csv", "Roster CSV file") do |file|
         @generator.load_roster(file)
         @frame.validate
       end

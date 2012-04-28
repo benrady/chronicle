@@ -4,13 +4,13 @@ module Chronicle
   class Settings < Hash
     SETTINGS_FILE = File.expand_path("~/.chronicle/settings.yaml")
     def initialize
-      if File.exists? SETTINGS_FILE
-        merge! YAML::load_file(SETTINGS_FILE) 
-      else
-        merge!({
-          :sheet_dir => File.expand_path("~")
-        })
-      end
+      home = File.expand_path("~")
+      merge!({
+        :sheet_dir => home,
+        :roster_dir => home,
+        :output_dir => home
+      })
+      merge! YAML::load_file(SETTINGS_FILE) if File.exists? SETTINGS_FILE
     end
 
     def []=(key, value)

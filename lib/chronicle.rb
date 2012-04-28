@@ -47,16 +47,19 @@ module Chronicle
       g.dispose
     end
 
-    def write_sheet(output_dir, info) # FIXME Split this up
+    def create_sheet_image(info)
       sheet_image = copy_image(@sheet)
       g = sheet_image.graphics
       render_sheet(info, g)
       g.dispose
+      return sheet_image
+    end
 
-      player_dir = "#{output_dir}/#{info[:society_id]}"
-
+    def write_sheet(output_dir, info) # FIXME Split this up
+      sheet_image = create_sheet_image(info)
+      player_dir = File.join(output_dir, info[:society_number], info[:character_number]) 
       FileUtils.mkdir_p(player_dir)
-      filename = "#{player_dir}/#{@scenario_name}"
+      filename = File.join(player_dir, @scenario_name)
       ImageIO.write(sheet_image, 'png', java.io.File.new(filename))
     end
 
