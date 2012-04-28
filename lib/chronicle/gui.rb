@@ -3,6 +3,7 @@ require 'yaml'
 
 require 'chronicle/roster_table_model'
 require 'chronicle/preview_panel'
+require 'chronicle/settings'
 
 java_import java.awt.BorderLayout
 java_import java.awt.Color
@@ -46,7 +47,7 @@ module Chronicle
 
   class GUI 
     def initialize(generator)
-      @settings = {:sheet_dir => File.expand_path("~")}
+      @settings = Settings.new
       @generator = generator
       @frame = create_frame
       content = @frame.contentPane

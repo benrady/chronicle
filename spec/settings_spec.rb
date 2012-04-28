@@ -12,4 +12,6 @@ describe Chronicle::Settings do
     settings[:a] = 'a'
     settings[:a].should == 'a'
   end
+
+  it "saves the settings to disk"
 end
