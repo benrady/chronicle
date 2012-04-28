@@ -17,9 +17,7 @@ module Chronicle
 
     def paintComponent(g)
       g = g.create # Make a copy that we can safely mess with
-      scale = getWidth / 2513.0 # FIXME  Should use a fixed scale and adjust the component size
-      #2513x3263
-      # g.transform(AffineTransform::getTranslateInstance(100, 100))  I think this needs a shift to display correctly
+      scale = getWidth / 2513.0 
       g.transform(AffineTransform::getScaleInstance(scale, scale))
       @generator.render_sheet(@info, g)
     end

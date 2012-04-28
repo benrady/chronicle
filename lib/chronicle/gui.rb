@@ -88,7 +88,6 @@ module Chronicle
     def sheet_panel
       s = Box.createVerticalBox
       @preview_panel = PreviewPanel.new(@generator)
-      # FIXME This scroll pane doesn't want to scroll
       s.add(pane = JScrollPane.new(@preview_panel, 
                             JScrollPane::VERTICAL_SCROLLBAR_AS_NEEDED, 
                             JScrollPane::HORIZONTAL_SCROLLBAR_NEVER))
