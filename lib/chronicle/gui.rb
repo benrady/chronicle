@@ -89,9 +89,14 @@ module Chronicle
       s = Box.createVerticalBox
       @preview_panel = PreviewPanel.new(@generator)
       # FIXME This scroll pane doesn't want to scroll
-      s.add(JScrollPane.new(@preview_panel, 
+      s.add(pane = JScrollPane.new(@preview_panel, 
                             JScrollPane::VERTICAL_SCROLLBAR_AS_NEEDED, 
                             JScrollPane::HORIZONTAL_SCROLLBAR_NEVER))
+      pane.add_component_listener do |e| 
+        new_size = Dimension.new(pane.width, (pane.width * 1.3).to_i )
+        @preview_panel.preferred_size = new_size
+        @preview_panel.revalidate
+      end
       return s
     end
 
