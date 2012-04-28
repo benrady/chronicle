@@ -98,12 +98,13 @@ module Chronicle
     def load_roster
       choose_file(:roster_dir, ".csv", "Roster CSV file") do |file|
         @generator.load_roster(file)
+        @roster_table.revalidate
         @frame.validate
       end
     end
 
     def roster_list
-      table = JTable.new(RosterTableModel.new(@generator))
+      @roster_table = table = JTable.new(RosterTableModel.new(@generator))
       table.getSelectionModel.setSelectionMode ListSelectionModel::SINGLE_SELECTION
       table.getSelectionModel.add_list_selection_listener { |e|
         unless e.value_is_adjusting

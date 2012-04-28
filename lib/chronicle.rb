@@ -15,8 +15,6 @@ module Chronicle
 
   def self.start
     g = Generator.new
-    g.load_roster("test/roster.csv") # FIXME
-    g.load_sheet("test/Season3/3-FirstSteps3_AVisionOfBetrayal.png")
     Chronicle::GUI.new(g)
   end
 
@@ -25,6 +23,7 @@ module Chronicle
 
     def initialize
       @parser = TotalCalculator.new
+      @roster = []
     end
 
     def load_roster(roster_uri)
@@ -41,10 +40,11 @@ module Chronicle
     end
 
     def render_sheet(info, g)
-      renderer = SheetRenderer.new(g, SheetSchema.find(@sheet))
-      g.drawImage(@sheet, nil, nil)
-      renderer.draw(info) if info
-      g.dispose
+      if @sheet
+        renderer = SheetRenderer.new(g, SheetSchema.find(@sheet))
+        g.drawImage(@sheet, nil, nil)
+        renderer.draw(info) if info
+      end
     end
 
     def create_sheet_image(info)
@@ -55,7 +55,7 @@ module Chronicle
       return sheet_image
     end
 
-    def write_sheet(output_dir, info) # FIXME Split this up
+    def write_sheet(output_dir, info) 
       sheet_image = create_sheet_image(info)
       player_dir = File.join(output_dir, info[:society_number], info[:character_number]) 
       FileUtils.mkdir_p(player_dir)
