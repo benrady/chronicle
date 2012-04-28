@@ -63,6 +63,7 @@ class TotalCalculator
     info[:items_sold_total] = info[:items_sold_cost] / 2
   end
 
+  # FIXME should throw a nice exception if any required fields are missing
   def calculate_totals(info)
     parse_trades(info)
     info[:day_job] = 

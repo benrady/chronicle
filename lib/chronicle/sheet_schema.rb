@@ -14,13 +14,11 @@ module SheetSchema
   class << self
 
     def find(g)
-      # Season 0: Probably don't need both checks 
-      if g.getRGB(2350, 135) == Color.black.getRGB && g.getRGB(2350, 600) == Color.black.getRGB
-        return SheetSchema.season0[:two_tier]
-      end
-      # This is probably a better indicator of two vs three tier
-      if g.getRGB(2045, 505) == Color.black.getRGB
+      if g.getRGB(2050, 500) == Color.black.getRGB
         return SheetSchema.season2[:three_tier]
+      end
+      if g.getRGB(2183, 837) == Color.black.getRGB 
+        return SheetSchema.season0[:two_tier]
       end
       return SheetSchema.season3[:two_tier]
     end
@@ -30,6 +28,7 @@ module SheetSchema
       list_second = 2524
       {
         :two_tier => {
+          :schema_name => "Season 0 - Two Tier",
           :starting_xp => large_text_amount(720),
           :xp_total => large_text_amount(970),
           :starting_prestige => large_text_amount(1249),
@@ -64,6 +63,7 @@ module SheetSchema
       list_second = 2524
       {
         :three_tier => {
+          :schema_name => "Three Tier",
           :starting_xp => large_text_amount(770),
           :xp_total => large_text_amount(1020),
           :starting_prestige => large_text_amount(1279),
@@ -98,6 +98,7 @@ module SheetSchema
       list_second = 2571
       {
         :two_tier => {
+          :schema_name => "Season 3 - Two Tier",
           :slow => [:check, [2115, 333]],
           :normal => [:check, [2240, 333]],
           :starting_xp => large_text_amount(790),

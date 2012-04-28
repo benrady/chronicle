@@ -59,6 +59,8 @@ module Chronicle
         @generate_button.enabled = false
         header.add(@generate_button)
 
+        header.add(@info_label = JLabel.new("No Sheet Loaded"))
+
         # FIXME Add annotation tool
       }
     end
@@ -88,7 +90,9 @@ module Chronicle
     def load_sheet
       choose_file(:sheet_dir, "png",  "Chronicle Sheet PNG files (300dpi)") do |file|
         @generator.load_sheet(file)
+        @info_label.text = @generator.schema_name
         @preview_panel.repaint()
+        ready_check
       end
     end
 
@@ -99,7 +103,11 @@ module Chronicle
           @generator.write_sheets_to(output_dir)
         rescue Exception => e
           JOptionPane::showMessageDialog(@frame, "Error generating sheets: #{e.message}")
-          e.printStackTrace if e.responds_to? :printStackTrace
+          if e.respond_to? :printStackTrace
+            e.printStackTrace 
+          else
+            puts e.backtrace
+          end
         end
         @frame.setCursor(Cursor.getPredefinedCursor(Cursor::DEFAULT_CURSOR))
       end

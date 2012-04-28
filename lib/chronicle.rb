@@ -31,6 +31,11 @@ module Chronicle
       @sheet and not @roster.empty?
     end
 
+    def schema_name
+      return @schema[:schema_name] if @schema
+      "No Sheet Loaded"
+    end
+
     def load_roster(roster_uri)
       lines = open(roster_uri).readlines
       @roster = []
@@ -41,12 +46,13 @@ module Chronicle
     
     def load_sheet(sheet_uri)
       @sheet = GMData.load(sheet_uri)
+      @schema = SheetSchema.find(@sheet)
       @scenario_name = File.basename(sheet_uri)
     end
 
     def render_sheet(info, g)
       if @sheet
-        renderer = SheetRenderer.new(g, SheetSchema.find(@sheet))
+        renderer = SheetRenderer.new(g, @schema)
         g.drawImage(@sheet, nil, nil)
         renderer.draw(info) if info
       else
@@ -67,7 +73,7 @@ module Chronicle
 
     def write_sheet(output_dir, info) 
       sheet_image = create_sheet_image(info)
-      player_dir = File.join(output_dir, info[:society_number], info[:character_number]) 
+      player_dir = File.join(output_dir, info[:society_number], info[:character_number] || "0") 
       FileUtils.mkdir_p(player_dir)
       filename = File.join(player_dir, @scenario_name)
       ImageIO.write(sheet_image, 'png', java.io.File.new(filename))
