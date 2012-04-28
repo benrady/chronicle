@@ -56,6 +56,10 @@ For example, a wayfinder could be listed as: "Standard Wayfinder 250gp". Units c
 
 Done! A chronicle sheet for each character (including your GM reward character) should have been created in the `sheets` directory. If you want to generate your sheets to a different directory, you can pass that as the last parameter to chronicle.
 
+## Develoment Notes
+
+Run `warble` to generate the jar file.
+
 ### About Chronicle
 
 Chronicle was written by Ben Rady, and is distribuited under the MIT License

@@ -8,14 +8,14 @@ require 'chronicle/gm_data'
 require 'chronicle/gui'
 require 'chronicle/basic_csv'
 
+java_import java.awt.image.BufferedImage
+java_import javax.imageio.ImageIO
+
 module Chronicle
-  BI = java.awt.image.BufferedImage
-  IO = javax.imageio.ImageIO
-  XForm = java.awt.geom.AffineTransform
 
   def self.start
     g = Generator.new
-    g.load_roster("test/roster.csv")
+    g.load_roster("test/roster.csv") # FIXME
     g.load_sheet("test/Season3/3-FirstSteps3_AVisionOfBetrayal.png")
     Chronicle::GUI.new(g)
   end
@@ -37,6 +37,7 @@ module Chronicle
     
     def load_sheet(sheet_uri)
       @sheet = GMData.load(sheet_uri)
+      @scenario_name = File.basename(sheet_uri)
     end
 
     def render_sheet(info, g)
@@ -46,7 +47,7 @@ module Chronicle
       g.dispose
     end
 
-    def write_sheet(output_dir, info)
+    def write_sheet(output_dir, info) # FIXME Split this up
       sheet_image = copy_image(@sheet)
       g = sheet_image.graphics
       render_sheet(info, g)
@@ -55,9 +56,8 @@ module Chronicle
       player_dir = "#{output_dir}/#{info[:society_id]}"
 
       FileUtils.mkdir_p(player_dir)
-      scenario_name = File.basename("foo", '.png') # FIXME
-      filename = "#{player_dir}/#{scenario_name}.png"
-      IO.write(sheet_image, 'png', java.io.File.new(filename))
+      filename = "#{player_dir}/#{@scenario_name}"
+      ImageIO.write(sheet_image, 'png', java.io.File.new(filename))
     end
 
     def write_sheets_to(output_dir)
@@ -69,7 +69,7 @@ module Chronicle
     def copy_image(bi)
       cm = bi.color_model
       raster = bi.copyData(nil)
-      return BI.new(cm, raster, cm.isAlphaPremultiplied, nil)
+      return BufferedImage.new(cm, raster, cm.isAlphaPremultiplied, nil)
     end
   end
 end

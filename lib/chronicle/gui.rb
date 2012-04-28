@@ -1,10 +1,15 @@
 require 'java'
+require 'yaml'
+
+require 'chronicle/roster_table_model'
+require 'chronicle/preview_panel'
 
 java_import java.awt.BorderLayout
 java_import java.awt.Color
 java_import java.awt.Dimension
 java_import java.awt.FlowLayout
 java_import java.awt.GridLayout
+java_import java.util.Properties
 java_import javax.swing.BorderFactory
 java_import javax.swing.Box
 java_import javax.swing.BoxLayout
@@ -19,59 +24,8 @@ java_import javax.swing.JScrollPane
 java_import javax.swing.ListSelectionModel
 java_import javax.swing.border.BevelBorder
 java_import javax.swing.filechooser.FileFilter
-java_import javax.swing.table.AbstractTableModel
 
 module Chronicle
-  class RosterTableModel < AbstractTableModel
-    def initialize(generator)
-      super()
-      @generator = generator
-      @columns = [
-        :character_name, 
-        :player_name, 
-        :society_number, 
-        :character_number, 
-        :faction
-      ]
-    end
-
-    def getColumnName(col)
-      @columns[col].to_s
-    end
-
-    def getColumnCount 
-      @columns.length
-    end
-
-    def getRowCount
-      @generator.roster.length
-    end
-
-    def getValueAt(row, col)
-      @generator.roster[row][@columns[col]]
-    end
-  end
-
-
-  class PreviewPanel < JComponent 
-    def initialize(generator)
-      super()
-      @generator = generator
-    end
-    
-    def info=(info)
-      @info = info
-      repaint
-    end
-
-    def paintComponent(g)
-      g = g.create # Make a copy that we can safely mess with
-      scale = getWidth / 2513.0 # FIXME  Should use a fixed scale and adjust the component size
-      #2513x3263
-      g.transform(XForm::getScaleInstance(scale, scale))
-      @generator.render_sheet(@info, g)
-    end
-  end
 
   class ExtFileFilter < FileFilter
     def initialize(ext, desc)
@@ -91,6 +45,7 @@ module Chronicle
 
   class GUI 
     def initialize(generator)
+      @settings = {:sheet_dir => Dir.home}
       @generator = generator
       @frame = create_frame
       content = @frame.contentPane
@@ -115,24 +70,17 @@ module Chronicle
         generate_button = JButton.new("Generate Sheets")
         generate_button.add_action_listener { |e| generate_sheets }
         header.add(generate_button)
+
+        # FIXME Add annotation tool
       }
     end
 
     def create_frame
       f = javax.swing.JFrame.new("Chronicle")
-      f.setSize(1024, 768) # FIXME
+      f.setSize(692, 1024) 
       #f.setLocationRelativeTo(nil) centers the window FIXME
       f.defaultCloseOperation = javax.swing.JFrame::EXIT_ON_CLOSE
       return f
-    end
-
-    def load_sheet
-      c = JFileChooser.new
-      c.setFileFilter(ExtFileFilter.new(".png", "Chronicle Sheet PNG files (300dpi)"))
-      if c.showOpenDialog(@frame) == JFileChooser::APPROVE_OPTION
-        @generator.load_sheet(c.getSelectedFile.getAbsolutePath)
-        @preview_panel.repaint()
-      end
     end
 
     def sheet_panel
@@ -145,20 +93,22 @@ module Chronicle
       return s
     end
 
+    def load_sheet
+      choose_file(:sheet_dir, "png",  "Chronicle Sheet PNG files (300dpi)") do |file|
+        @generator.load_sheet(file)
+        @preview_panel.repaint()
+      end
+    end
+
     def generate_sheets
-      c = JFileChooser.new
-      c.file_selection_mode = JFileChooser::DIRECTORIES_ONLY
-      if c.showOpenDialog(@frame) == JFileChooser::APPROVE_OPTION
-        output_dir = c.getSelectedFile.getAbsolutePath
+      choose_file(:output_dir) do |output_dir|
         @generator.write_sheets_to(output_dir)
       end
     end
 
     def load_roster
-      c = JFileChooser.new
-      c.setFileFilter(ExtFileFilter.new(".csv", "Roster CSV file"))
-      if c.showOpenDialog(@frame) == JFileChooser::APPROVE_OPTION
-        @generator.load_roster(c.getSelectedFile.getAbsolutePath)
+      choose_file(:sheet_dir, ".csv", "Roster CSV file") do |file|
+        @generator.load_roster(file)
         @frame.validate
       end
     end
@@ -185,5 +135,23 @@ module Chronicle
       yield p if block_given?
       return p
     end
+
+    def choose_file(setting, ext=nil, description=nil)
+      c = JFileChooser.new
+      c.setCurrentDirectory(java.io.File.new(@settings[setting]))
+
+      if ext
+        c.setFileFilter(ExtFileFilter.new(ext, description))
+      else
+        c.file_selection_mode = JFileChooser::DIRECTORIES_ONLY
+      end
+
+      if c.showOpenDialog(@frame) == JFileChooser::APPROVE_OPTION
+        @settings[setting] = c.getCurrentDirectory.getAbsolutePath
+        yield c.getSelectedFile.getAbsolutePath
+        @preview_panel.repaint()
+      end
+    end
+
   end
 end
