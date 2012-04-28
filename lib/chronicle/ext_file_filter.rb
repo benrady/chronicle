@@ -1,4 +1,5 @@
 require 'java'
+require 'java'
 
 java_import javax.swing.filechooser.FileFilter
 

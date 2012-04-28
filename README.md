@@ -1,26 +1,12 @@
-Chronicle makes it easy for Pathfinder Society GM's to collect player info and generate chronicle sheets right from the scenario PDFs.
+Chronicle makes it easy for Pathfinder Society GM's to collect player info and generate chronicle sheets.
 
 # Installation:
 
-Chronicle requires JRuby 1.5. To install the gem, you'll also need bundler and rake (which you can install as gems). 
-
-Once you have the pre-requisites, installing the chronicle gem should be as easy as:
-
-    $ git clone git://github.com/benrady/chronicle.git
-    $ cd chronicle
-    $ rake install
-
-I'll publish this gem to rubygems soon enough :-)
+Chronicle requires Java. If you don't have Java installed, try [getting it here](http://java.com/en/download/index.jsp). Once you have Java installed, just double click on chronicle.jar to run it.
 
 # Setup:
 
 To sign and initial your chronicle sheets, you'll need create two images: `signature.png` and `initials.png`. These files must be placed in your home directory under the `.chronicle` subdirectory. The signature file should be 500x100 and the initials file should 100x100. Both should be 300dpi.
-
-# Usage:
-
-I organize the scenarios I run into directories (folders). Each directory contains the scenario PDF as well as the other materials I use to run the session. All the chronicle commands listed below are run in a terminal from a directory such as this. 
-
-This instructions are probably more detailed than you need, but just in case...
 
 ## Creating an Online Signup Form
 0. First, [click here to create](https://docs.google.com/previewtemplate?id=0Ann48md_Q6mkdGtocUJ4NVZhQjVSdWRidzUtU3dKOHc&mode=public) a simple online signup form for your session.
@@ -34,7 +20,7 @@ This instructions are probably more detailed than you need, but just in case...
 
 Chronicle requires a 300 pixel/inch PNG file of the scenario chronicle sheet in order to fill it out. There are a number of ways to create this, including:
 
-* In OS X Preview, go to the last page of the scenario pdf and click "File"&rarr;"Save As...", then select Format: PNG and Resolution: 300 (pixels per inch).
+* In OS X Preview, go to the last page of the scenario pdf and click "File"&rarr;"Save As...", then select Format: PNG and Resolution: 300 (pixels per inch). Preview is sometimes a bit finicky about this...it helps to click outside of the edit box before hitting "save".
 * Using [Docsplit](http://documentcloud.github.com/docsplit/), run `docsplit images -d 300 scenario.pdf`. You can use the `-p` option to select only the last page if you wish.
 
 ## Formatting Notes
@@ -52,19 +38,19 @@ For example, a wayfinder could be listed as: "Standard Wayfinder 250gp". Units c
 0. Click "File"&rarr;"Download As..."&rarr;"CSV (Current Sheet)". I like to save this file to a "rosters" subdirectory under my scenario directory.
 0. Open a terminal and change to your scenario directory.
 0. If you need to mark out any items that the players did not earn, open up your favorite image editor and mark up the chronicle sheet PNG. 
-0. Run `chronicle rosters/[new roster file].csv scenario.png`. 
+0. Run chronicle and load the chronicle sheet and roster. Hit "Generate Sheets" and choose a directory to output to.
 
-Done! A chronicle sheet for each character (including your GM reward character) should have been created in the `sheets` directory. If you want to generate your sheets to a different directory, you can pass that as the last parameter to chronicle.
+Done! A chronicle sheet for each character (including your GM reward character) should have been created in the directory you selected.
 
-## Develoment Notes
+## Notes for Programmers
 
-Run `warble` to generate the jar file.
+Run `warble` to generate the jar file. You will have to install the "warbler" gem first (version 1.3.5)
 
 ### About Chronicle
 
 Chronicle was written by Ben Rady, and is distribuited under the MIT License
 
-Copyright (c) 2010 Ben Rady <benrady@gmail.com>
+Copyright (c) 2012 Ben Rady <benrady@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
