@@ -10,6 +10,7 @@ require 'chronicle/basic_csv'
 
 java_import java.awt.image.BufferedImage
 java_import javax.imageio.ImageIO
+java_import javax.swing.JOptionPane
 
 module Chronicle
 
@@ -24,6 +25,10 @@ module Chronicle
     def initialize
       @parser = TotalCalculator.new
       @roster = []
+    end
+
+    def is_ready?
+      @sheet and not @roster.empty?
     end
 
     def load_roster(roster_uri)
@@ -44,6 +49,11 @@ module Chronicle
         renderer = SheetRenderer.new(g, SheetSchema.find(@sheet))
         g.drawImage(@sheet, nil, nil)
         renderer.draw(info) if info
+      else
+        g.font = Font.new('Marker Felt', Font::PLAIN, 128)
+        g.color = Color::LIGHT_GRAY
+        g.drawString("Chronicle", 1000 , 750)
+        g.drawString("v#{Chronicle::VERSION}", 1000, 900)
       end
     end
 

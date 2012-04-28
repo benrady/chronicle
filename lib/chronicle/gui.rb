@@ -8,6 +8,7 @@ require 'chronicle/ext_file_filter'
 
 java_import java.awt.BorderLayout
 java_import java.awt.Color
+java_import java.awt.Cursor
 java_import java.awt.Dimension
 java_import java.awt.FlowLayout
 java_import java.awt.GridLayout
@@ -20,6 +21,7 @@ java_import javax.swing.JComboBox
 java_import javax.swing.JComponent
 java_import javax.swing.JFileChooser
 java_import javax.swing.JLabel
+java_import javax.swing.JOptionPane
 java_import javax.swing.JTable
 java_import javax.swing.JPanel
 java_import javax.swing.JScrollPane
@@ -52,9 +54,10 @@ module Chronicle
         roster_button.add_action_listener { |e| load_roster }
         header.add(roster_button)
 
-        generate_button = JButton.new("Generate Sheets")
-        generate_button.add_action_listener { |e| generate_sheets }
-        header.add(generate_button)
+        @generate_button = JButton.new("Generate Sheets")
+        @generate_button.add_action_listener { |e| generate_sheets }
+        @generate_button.enabled = false
+        header.add(@generate_button)
 
         # FIXME Add annotation tool
       }
@@ -91,7 +94,14 @@ module Chronicle
 
     def generate_sheets
       choose_file(:output_dir) do |output_dir|
-        @generator.write_sheets_to(output_dir)
+        begin
+          @frame.setCursor(Cursor.getPredefinedCursor(Cursor::WAIT_CURSOR))
+          @generator.write_sheets_to(output_dir)
+        rescue Exception => e
+          JOptionPane::showMessageDialog(@frame, "Error generating sheets: #{e.message}")
+          e.printStackTrace if e.responds_to? :printStackTrace
+        end
+        @frame.setCursor(Cursor.getPredefinedCursor(Cursor::DEFAULT_CURSOR))
       end
     end
 
@@ -100,7 +110,12 @@ module Chronicle
         @generator.load_roster(file)
         @roster_table.revalidate
         @frame.validate
+        ready_check
       end
+    end
+
+    def ready_check
+      @generate_button.enabled = @generator.is_ready? 
     end
 
     def roster_list
