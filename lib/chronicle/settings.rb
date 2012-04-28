@@ -2,7 +2,7 @@ require "yaml"
 
 module Chronicle
   class Settings < Hash
-    SETTINGS_FILE = File.join(Dir::home, ".chronicle/settings.yaml")
+    SETTINGS_FILE = File.expand_path("~/.chronicle/settings.yaml")
     def initialize
       # FIXME load settings from disk here
       merge! YAML::load( File.open(SETTINGS_FILE, 'a+')) if File.exists? SETTINGS_FILE

@@ -2,10 +2,14 @@
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
+require 'rubygems'
+require 'java'
 require 'chronicle'
 
-if ARGV.length < 1
-  Chronicle.start
-else
-  Chronicle.generate(*ARGV)
-end
+java_import "javax.swing.SwingUtilities"
+
+Chronicle.start
+
+event_thread = nil
+SwingUtilities.invokeAndWait { event_thread = java.lang.Thread.currentThread }
+event_thread.join

@@ -1,1 +1,1 @@
-rvm use jruby-1.5.6@chronicle --create
+rvm use --create jruby-1.6.7@chronicle

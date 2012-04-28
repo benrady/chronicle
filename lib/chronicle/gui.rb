@@ -27,6 +27,7 @@ java_import javax.swing.filechooser.FileFilter
 
 module Chronicle
 
+  # FIXME move to seperate file
   class ExtFileFilter < FileFilter
     def initialize(ext, desc)
       super()
@@ -45,14 +46,14 @@ module Chronicle
 
   class GUI 
     def initialize(generator)
-      @settings = {:sheet_dir => Dir.home}
+      @settings = {:sheet_dir => File.expand_path("~")}
       @generator = generator
       @frame = create_frame
       content = @frame.contentPane
       content.add(create_header, BorderLayout::NORTH)
       content.add(sheet_panel, BorderLayout::CENTER)
       content.add(roster_list, BorderLayout::SOUTH)
-      @frame.visible = true
+      @frame.show
     end
 
     def create_header
