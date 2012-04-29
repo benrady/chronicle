@@ -1,34 +1,8 @@
 require 'chronicle/sheet_schema'
 
 describe SheetSchema do
-  BI = java.awt.image.BufferedImage
-  let(:image) { BI.new(2513, 3263, BI::TYPE_INT_RGB) }
-
-  before( :each ) do
-    @g = image.createGraphics
-    @g.setColor(Color.red)
-    @g.fillRect(0, 0, 2513, 3263)
-  end
-
-  it "detects season zero sheets" do
-    @g.setColor(Color.black)
-    @g.fillRect(2350, 135, 1, 1)
-    @g.fillRect(2350, 600, 1, 1)
-    SheetSchema.find(image).should == SheetSchema::season0[:two_tier]
-  end
-
-  it "detects season two, three tier sheets" do
-    @g.setColor(Color.black)
-    @g.fillRect(2045, 505, 1, 1)
-    SheetSchema.find(image).should == SheetSchema::season2[:three_tier]
-  end
-
-  it "Uses season 3, two tier sheets by default" do
-    SheetSchema.find(image).should == SheetSchema.season3[:two_tier]
-  end
-
-  it "includes the GM info fields" do
-    SheetSchema.season2[:three_tier][:gm_society_number].should_not be nil
-    SheetSchema.season3[:two_tier][:gm_society_number].should_not be nil
+  it "can find season zero 3 tier sheets" do
+    schema = SheetSchema.find_schema(-8224746833)
+    schema.keys.should include :chronicle_number
   end
 end

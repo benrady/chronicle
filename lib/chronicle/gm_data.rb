@@ -1,3 +1,5 @@
+require 'java'
+
 class GMData
   IO = javax.imageio.ImageIO
 

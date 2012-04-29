@@ -59,6 +59,7 @@ module Chronicle
         @generate_button.enabled = false
         header.add(@generate_button)
 
+        # FIXME Turn this into a combo box and let users select
         header.add(@info_label = JLabel.new("No Sheet Loaded"))
 
         # FIXME Add annotation tool
