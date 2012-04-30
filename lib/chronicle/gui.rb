@@ -31,6 +31,7 @@ java_import javax.swing.border.BevelBorder
 module Chronicle
 
   class GUI 
+    # FIXME You could probably write a smoke test for this
     def initialize(generator)
       @settings = Settings.new
       @generator = generator

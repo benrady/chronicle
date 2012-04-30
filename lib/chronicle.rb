@@ -21,6 +21,7 @@ module Chronicle
     Chronicle::GUI.new(g)
   end
 
+  # FIXME You should extract this out to a another file and see if you can test it
   class Generator
     attr_accessor :roster
 
