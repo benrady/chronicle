@@ -2,7 +2,7 @@
 .DS_Store
 .bundle
 test
-chronicle.jar
+/chronicle.jar
 Gemfile.lock
 pkg/*
 *.png

@@ -1,0 +1,11 @@
+#!/usr/bin/env jruby
+
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+
+require 'chronicle/gm_data'
+require 'chronicle/sheet_schema'
+
+ARGV.each do |f|
+  sheet = GMData.load(f)
+  puts "#{SheetSchema.checksum(sheet)}"
+end

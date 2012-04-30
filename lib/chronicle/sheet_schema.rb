@@ -198,7 +198,7 @@ class SheetSchema < Hash
       end
 
       sheet_checksums = {
-      #-10965565657
+      #-10965565657 Blood Under Absalom FIXME
       -6613165945 => season_three_two_tier,
       -6613231738 => season_three_two_tier,
       -6648234899 => season_three_two_tier,
@@ -230,12 +230,18 @@ class SheetSchema < Hash
       -8367763491 => three_tier,
       -8427856888 => season_three_two_tier,
       -8506756877 => three_tier,
-      #-8530837373
-      #-8561891673
-      #-8583779234
-      #-8664375658
-      #-8796554577
-      #-9175055510
+      -8530837373 => three_tier,
+      -8561891673 => three_tier,
+      -8583779234 => three_tier,
+      -8664375658 => SheetSchema.new("Among the Living") do |s|
+        s.chronicle_number(205) 
+        s.experience(780)
+        s.prestige(1272)
+        s.gold(1785)
+        s.items(2488, 2519)
+      end,
+      -8796554577 => three_tier
+      #-9175055510 Year of the Shadow Lodge FIXME
       }
 
       return sheet_checksums[checksum] if sheet_checksums.has_key? checksum

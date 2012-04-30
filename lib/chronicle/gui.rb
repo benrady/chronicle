@@ -39,6 +39,7 @@ module Chronicle
       content.add(create_header, BorderLayout::NORTH)
       content.add(sheet_panel, BorderLayout::CENTER)
       content.add(roster_list, BorderLayout::SOUTH)
+      ready_check
       @frame.show
     end
 
@@ -50,6 +51,9 @@ module Chronicle
         sheet_button.add_action_listener { |e| load_sheet }
         header.add(sheet_button)
 
+        # FIXME Turn this into a combo box and let users select
+        header.add(@info_label = JLabel.new("No Sheet Loaded"))
+
         roster_button = JButton.new("Load Roster")
         roster_button.add_action_listener { |e| load_roster }
         header.add(roster_button)
@@ -58,9 +62,6 @@ module Chronicle
         @generate_button.add_action_listener { |e| generate_sheets }
         @generate_button.enabled = false
         header.add(@generate_button)
-
-        # FIXME Turn this into a combo box and let users select
-        header.add(@info_label = JLabel.new("No Sheet Loaded"))
 
         # FIXME Add annotation tool
       }
@@ -91,7 +92,6 @@ module Chronicle
     def load_sheet
       choose_file(:sheet_dir, "png",  "Chronicle Sheet PNG files (300dpi)") do |file|
         @generator.load_sheet(file)
-        @info_label.text = @generator.schema_name
         @preview_panel.repaint()
         ready_check
       end
@@ -125,6 +125,7 @@ module Chronicle
 
     def ready_check
       @generate_button.enabled = @generator.is_ready? 
+      @info_label.text = @generator.schema_name
     end
 
     def roster_list
