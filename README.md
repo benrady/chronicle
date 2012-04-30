@@ -2,7 +2,7 @@ Chronicle makes it easy for Pathfinder Society GM's to collect player info and g
 
 # Installation:
 
-First, [download the latest release here!](https://github.com/downloads/benrady/chronicle/chronicle.jar). Then just run the jar (double click on it, or run `java -jar chronicle.jar`).
+First, [download the latest release here](https://github.com/downloads/benrady/chronicle/chronicle.jar). Then just run the jar (double click on it, or run `java -jar chronicle.jar`).
 
 Chronicle requires Java. If you don't have Java installed, try [getting it here](http://java.com/en/download/index.jsp). Once you have Java installed, just double click on chronicle.jar to run it.
 
