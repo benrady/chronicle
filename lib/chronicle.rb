@@ -14,8 +14,10 @@ java_import javax.swing.JOptionPane
 
 module Chronicle
 
-  def self.start
+  def self.start(*args)
     g = Generator.new
+    g.load_roster(args[0]) if args.length > 0
+    g.load_sheet(args[1]) if args.length > 1
     Chronicle::GUI.new(g)
   end
 

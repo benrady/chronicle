@@ -13,9 +13,9 @@ class SheetSchema < Hash
   HEADER_BASELINE = 600
   LIST_COUNT = 7
 
-  def initialize
+  def initialize(name)
     schema = yield self
-    merge!(gm_info.merge(header).merge(schema))
+    merge!(gm_info.merge(header).merge(schema).merge({:schema_name => name}))
   end
 
   def header(baseline=HEADER_BASELINE)
@@ -89,6 +89,13 @@ class SheetSchema < Hash
     })
   end
 
+  def experience_season3(offset)
+    merge!({
+      :starting_xp => large_text_amount(offset),
+      :xp_total => large_text_amount(offset + 277),
+    })
+  end
+
   def prestige(offset)
     merge!({
       :starting_prestige => large_text_amount(offset),
@@ -96,6 +103,18 @@ class SheetSchema < Hash
       :prestige_gained_initial => initials(offset + 137),
       :final_prestige => large_text_amount(offset + 271),
     })
+  end
+
+  def fame(offset)
+    merge!({
+      :starting_fame => large_text_amount(offset), # 1326
+      :starting_prestige => large_text_amount(offset, RIGHT_COLUMN_OUTSET),
+      :prestige_gained => large_text_amount(offset + 138),
+      :prestige_gained_initial => initials(offset + 138),
+      :prestige_spent => large_text_amount(offset + 274),
+      :final_fame => large_text_amount(offset + 413),
+      :final_prestige => large_text_amount(offset + 413, RIGHT_COLUMN_OUTSET),
+    })      
   end
 
   def gold(offset)
@@ -108,6 +127,20 @@ class SheetSchema < Hash
       :items_bought_total => large_text_amount(offset + 550),
       :gold_spent => large_text_amount(offset + 825),
       :gold_total => large_text_amount(offset + 963),
+    })
+  end
+
+  def gold_season3(offset) # 1978
+    merge!({
+      :starting_gold => large_text_amount(offset),
+      :gold_gained => large_text_amount(offset + 136),
+      :gold_gained_initial => initials(offset + 136),
+      :day_job => large_text_amount(offset + 273),
+      :day_job_initial => initials(offset + 273),
+      :items_sold_total => large_text_amount(offset + 413),
+      :subtotal => large_text_amount(offset + 550),
+      :items_bought_total => large_text_amount(offset + 692),
+      :gold_total => large_text_amount(offset + 850)
     })
   end
 
@@ -140,12 +173,36 @@ class SheetSchema < Hash
     end
 
     def find_schema(checksum)
+      season_three_two_tier = SheetSchema.new("Season 3, two tier") do |s|
+          s.chronicle_number(245) 
+          s.experience_season3(780)
+          s.fame(1315)
+          s.gold_season3(1968)
+          s.items(2538, 2570)
+        end 
+
+      season_zero_two_tier = SheetSchema.new("Season 0, Two Tier") do |s| 
+        s.chronicle_number(205) 
+        s.experience(720)
+        s.prestige(1244)
+        s.gold(1785)
+        s.items(2488, 2519)
+      end
+
+      three_tier = SheetSchema.new("Three Tier") do |s|
+        s.chronicle_number(245) 
+        s.experience(760)
+        s.prestige(1272)
+        s.gold(1785)
+        s.items(2488, 2519)
+      end
+
       sheet_checksums = {
       #-10965565657
-      #-6613165945
-      #-6613231738
-      #-6648234899
-      -7565500974 => SheetSchema.new do |s|
+      -6613165945 => season_three_two_tier,
+      -6613231738 => season_three_two_tier,
+      -6648234899 => season_three_two_tier,
+      -7565500974 => SheetSchema.new("Season Zero, Two Tier") do |s|
           s.chronicle_number(277) 
           s.experience(720)
           s.prestige(1244)
@@ -153,32 +210,26 @@ class SheetSchema < Hash
           s.items(2488, 2519)
         end,
 
-      #-7636425827
-      #-7720795533
-      #-8030796133
-      #-8097904993
-      #-8120274613
-      #-8142644233
-      -8159020407 => SheetSchema.new do |s|
-          s.chronicle_number(205) 
-          s.experience(720)
-          s.prestige(1244)
-          s.gold(1785)
-          s.items(2488, 2519)
-        end,
-      #-8170606258
-      #-8193036675
-        -8224746833 => SheetSchema.new do |s|
+      -7636425827 => season_zero_two_tier,
+      -7720795533 => season_three_two_tier,
+      -8030796133 => season_three_two_tier,
+      -8097904993 => season_three_two_tier,
+      -8120274613 => season_three_two_tier,
+      -8142644233 => season_three_two_tier,
+      -8159020407 => season_zero_two_tier,
+      -8170606258 => season_three_two_tier,
+      -8193036675 => three_tier,
+        -8224746833 => SheetSchema.new("Season Zero, Two Tier") do |s| 
           s.chronicle_number(255) 
           s.experience(760)
           s.prestige(1270)
           s.gold(1785)
           s.items(2488, 2519)
-        end
-      #-8260084738
-      #-8367763491
-      #-8427856888
-      #-8506756877
+        end,
+      -8260084738 => season_three_two_tier,
+      -8367763491 => three_tier,
+      -8427856888 => season_three_two_tier,
+      -8506756877 => three_tier,
       #-8530837373
       #-8561891673
       #-8583779234
@@ -188,14 +239,7 @@ class SheetSchema < Hash
       }
 
       return sheet_checksums[checksum] if sheet_checksums.has_key? checksum
-      
-      if img.getRGB(2050, 500) == Color.black.getRGB
-        return SheetSchema.season2[:three_tier]
-      end
-      if img.getRGB(2183, 837) == Color.black.getRGB 
-        return SheetSchema.season0[:two_tier]
-      end
-      return SheetSchema.season3[:two_tier]
+      return {}
     end
 
     def season0

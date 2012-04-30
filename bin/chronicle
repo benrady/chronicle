@@ -8,7 +8,7 @@ require 'chronicle'
 
 java_import "javax.swing.SwingUtilities"
 
-Chronicle.start
+Chronicle.start(*ARGV)
 
 event_thread = nil
 SwingUtilities.invokeAndWait { event_thread = java.lang.Thread.currentThread }
