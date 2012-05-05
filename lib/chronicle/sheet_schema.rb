@@ -240,11 +240,14 @@ class SheetSchema < Hash
         s.gold(1785)
         s.items(2488, 2519)
       end,
-      -8796554577 => three_tier
+      -8796554577 => three_tier,
+      -7875808144 => season_three_two_tier
       #-9175055510 Year of the Shadow Lodge FIXME
       }
 
+      puts "Sheet checksum: #{checksum}"
       return sheet_checksums[checksum] if sheet_checksums.has_key? checksum
+      puts "Unrecognized sheet!"
       return {}
     end
   end
