@@ -245,9 +245,9 @@ class SheetSchema < Hash
       #-9175055510 Year of the Shadow Lodge FIXME
       }
 
-      puts "Sheet checksum: #{checksum}"
+      STDOUT.puts "Sheet checksum: #{checksum}"
       return sheet_checksums[checksum] if sheet_checksums.has_key? checksum
-      puts "Unrecognized sheet!"
+      STDOUT.puts "Unrecognized sheet!"
       return {}
     end
   end
