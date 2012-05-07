@@ -1,8 +1,5 @@
-*.gem
 .DS_Store
-.bundle
+sheets
 test
 /chronicle.jar
-Gemfile.lock
-pkg/*
 *.png

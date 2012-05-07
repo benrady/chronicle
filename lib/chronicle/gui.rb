@@ -8,8 +8,8 @@ require 'chronicle/ext_file_filter'
 
 java_import java.awt.BorderLayout
 java_import java.awt.Color
-  java_import java.awt.Cursor
-  java_import java.awt.Dimension
+java_import java.awt.Cursor
+java_import java.awt.Dimension
 java_import java.awt.FlowLayout
 java_import java.awt.GridLayout
 java_import java.util.Properties
@@ -28,8 +28,11 @@ java_import javax.swing.JScrollPane
 java_import javax.swing.ListSelectionModel
 java_import javax.swing.border.BevelBorder
 
+# Note that there are no unit tests for this class, 
+# because starting a swing UI is slow, and RSpec
+# has no is_pretty? matcher.
+
 class GUI
-  # FIXME You could probably write a smoke test for this
   def initialize(generator)
     @settings = Settings.new
     @generator = generator
@@ -102,14 +105,18 @@ class GUI
         @frame.setCursor(Cursor.getPredefinedCursor(Cursor::WAIT_CURSOR))
         @generator.write_sheets_to(output_dir)
       rescue Exception => e
-        JOptionPane::showMessageDialog(@frame, "Error generating sheets: #{e.message}")
-        if e.respond_to? :printStackTrace
-          e.printStackTrace
-        else
-          puts e.backtrace
-        end
+        handle_error(e)
       end
       @frame.setCursor(Cursor.getPredefinedCursor(Cursor::DEFAULT_CURSOR))
+    end
+  end
+
+  def handle_error(e)
+    JOptionPane::showMessageDialog(@frame, "Error generating sheets: #{e.message}")
+    if e.respond_to? :printStackTrace
+      e.printStackTrace
+    else
+      puts e.backtrace
     end
   end
 

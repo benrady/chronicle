@@ -3,13 +3,19 @@ require 'fileutils'
 require 'chronicle/sheet_renderer'
 require 'chronicle/total_calculator'
 require 'chronicle/sheet_schema'
-require 'chronicle/gm_data'
+require 'chronicle/resources'
 require 'chronicle/basic_csv'
 require "chronicle/version"
 
 java_import java.awt.image.BufferedImage
 java_import javax.imageio.ImageIO
 java_import javax.swing.JOptionPane
+
+class ValidationError < Exception
+  def initialize(validation_errors)
+    @validation_errors = validation_errors
+  end
+end
 
 class Generator
   attr_accessor :roster
@@ -29,15 +35,17 @@ class Generator
   end
 
   def load_roster(roster_uri)
-    lines = open(roster_uri).readlines
+    lines = File.open(roster_uri).readlines
     @roster = []
     BasicCSV.new(lines).each do |row|
-      @roster << @parser.player_info(row).merge(GMData.load_gm_data)
+      validation = @parser.validate(row)
+      raise ValidationError.new(validation) unless validation.empty?
+      @roster << @parser.calculate_totals(row).merge(Resources.load_gm_data)
     end
   end
 
   def load_sheet(sheet_uri)
-    @sheet = GMData.load(sheet_uri)
+    @sheet = Resources.load_image(sheet_uri)
     puts @sheet.getType
     @schema = SheetSchema.find(@sheet)
     @scenario_name = File.basename(sheet_uri)

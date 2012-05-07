@@ -2,34 +2,32 @@ require 'java'
 
 java_import javax.swing.table.AbstractTableModel
 
-module Chronicle
-  class RosterTableModel < AbstractTableModel
-    def initialize(generator)
-      super()
-      @generator = generator
+class RosterTableModel < AbstractTableModel
+  def initialize(generator)
+    super()
+    @generator = generator
       @columns = [
-        :character_name, 
-        :player_name, 
-        :society_number, 
-        :character_number, 
+        :character_name,
+        :player_name,
+        :society_number,
+        :character_number,
         :faction
-      ]
-    end
+    ]
+  end
 
-    def getColumnName(col)
-      @columns[col].to_s
-    end
+  def getColumnName(col)
+    @columns[col].to_s
+  end
 
-    def getColumnCount 
-      @columns.length
-    end
+  def getColumnCount
+    @columns.length
+  end
 
-    def getRowCount
-      @generator.roster.length
-    end
+  def getRowCount
+    @generator.roster.length
+  end
 
-    def getValueAt(row, col)
-      @generator.roster[row][@columns[col]]
-    end
+  def getValueAt(row, col)
+    @generator.roster[row][@columns[col]]
   end
 end

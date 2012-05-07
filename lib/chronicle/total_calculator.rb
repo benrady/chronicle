@@ -1,10 +1,6 @@
 class TotalCalculator
   ITEM_REGEX = /(.+)\s(\d*)([gscp]p)/i
 
-  def player_info(info)
-    calculate_totals(info)
-  end
-
   def subtotal(info)
     info[:starting_gold].to_i + info[:gold_gained].to_i + info[:day_job].to_i + info[:items_sold_total].to_i
   end
@@ -61,6 +57,30 @@ class TotalCalculator
     info[:items_sold_desc], info[:items_sold_amount], info[:items_sold_cost] = parse_items(info[:sell_list])
     info[:items_bought_total] = info[:items_bought_cost]
     info[:items_sold_total] = info[:items_sold_cost] / 2
+  end
+
+  def validate(info)
+    required_fields = [
+      :day_job, 
+      :buy_list, 
+      :sell_list, 
+      :starting_gold,
+      :starting_fame,
+      :prestige_gained,
+      :prestige_spent,
+      :xp_gained,
+      :society_id,
+      :gold_gained
+    ]
+
+    validation = []
+    # Check that all of the columns are present
+    required_fields.each do |field|
+      validation << "Missing column #{field}" unless info.has_key? field
+    end
+
+    return validation
+    # Check for data in required fields
   end
 
   # FIXME should throw a nice exception if any required fields are missing

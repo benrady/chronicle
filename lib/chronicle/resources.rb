@@ -1,7 +1,30 @@
 require 'java'
 
-class GMData
+module Resources
   IO = javax.imageio.ImageIO
+
+  def self.core_class
+    (Java::JarMain || IO).java_class
+  end
+
+  def self.load_resource(name)
+    core_class.resource_as_stream("/#{name}")
+  end
+
+  def self.list_resources(dir="")
+    jar = core_class.protection_domain.code_source.location
+    # FIXME need to detect when we're running in a jar
+    stream = java.util.zip.ZipInputStream.new(jar.openStream)
+    resources = []
+    while entry = stream.next_entry
+      resources << entry.name
+    end
+    resources
+  end
+
+  def self.load_image_resource(name)
+    IO.read(load_resource(name))
+  end
 
   def self.load_image(file)
     if not File.exists? file
@@ -10,10 +33,6 @@ class GMData
     else
       IO.read(java.io.File.new(file))
     end
-  end
-
-  def self.load(chronicle_sheet)
-    load_image(chronicle_sheet)
   end
 
   def self.load_gm_data

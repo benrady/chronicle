@@ -25,11 +25,18 @@ describe TotalCalculator do
     :event_code => '9333',
     :event => 'WCPFS'
   }}
-  let (:info) { parser.player_info(row) }
+  let (:info) { parser.calculate_totals(row) }
 
   it "extracts known columns from the line" do
     info[:player_name].should == 'Brian'
     info[:email_address].should == 'brianrady@gmail.com'
+  end
+
+  describe "when validating" do
+    it "detects missing required fields" do
+      parser.validate({}).should include "Missing column starting_gold"
+      parser.validate({}).should include "Missing column day_job"
+    end
   end
 
   it "Uses zero for a missing day job roll" do
