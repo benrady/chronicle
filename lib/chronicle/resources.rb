@@ -4,22 +4,28 @@ module Resources
   IO = javax.imageio.ImageIO
 
   def self.core_class
-    (Java::JarMain || IO).java_class
+    Java::JarMain.java_class
   end
 
   def self.load_resource(name)
+    if File.exists? name
+      return java.io.FileInputStream.new(name)
+    end
     core_class.resource_as_stream("/#{name}")
   end
 
   def self.list_resources(dir="")
-    jar = core_class.protection_domain.code_source.location
-    # FIXME need to detect when we're running in a jar
-    stream = java.util.zip.ZipInputStream.new(jar.openStream)
-    resources = []
-    while entry = stream.next_entry
-      resources << entry.name
+    if running_in_jar?
+      jar = core_class.protection_domain.code_source.location
+      stream = java.util.zip.ZipInputStream.new(jar.openStream)
+      resources = []
+      while entry = stream.next_entry
+        resources << entry.name
+      end
+      resources
+    else
+      Dir.glob("resources/sheets/**")
     end
-    resources
   end
 
   def self.load_image_resource(name)
@@ -47,6 +53,10 @@ module Resources
       :gm_signature => signature_image,
       :gold_spent => 0
     }
+  end
+
+  def self.running_in_jar?
+    false
   end
   
 end

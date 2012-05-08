@@ -21,7 +21,14 @@ class Generator
   end
 
   def is_ready?
-    @sheet and not @roster.empty?
+    @sheet and @schema and not @roster.empty?
+  end
+
+  def available_sheets
+    Resources.list_resources.reduce({}) do |memo, resource|
+      memo[File.basename(resource)] = resource
+      memo
+    end
   end
 
   def schema_name
@@ -39,8 +46,7 @@ class Generator
   end
 
   def load_sheet(sheet_uri)
-    @sheet = Resources.load_image(sheet_uri)
-    puts @sheet.getType
+    @sheet = Resources.load_image_resource(sheet_uri)
     @schema = SheetSchema.find(@sheet)
     @scenario_name = File.basename(sheet_uri)
   end
@@ -79,6 +85,8 @@ class Generator
       write_sheet(output_dir, info)
     end
   end
+  
+  private
 
   def copy_image(bi)
     cm = bi.color_model

@@ -36,7 +36,8 @@ class GUI
   def initialize(generator)
     @settings = Settings.new
     @generator = generator
-      @frame = create_frame
+    @frame = create_frame
+    @available_sheets = @generator.available_sheets
     content = @frame.contentPane
     content.add(create_header, BorderLayout::NORTH)
     content.add(sheet_panel, BorderLayout::CENTER)
@@ -49,12 +50,10 @@ class GUI
     new_panel(nil, 120) { |header|
       header.layout = FlowLayout.new(FlowLayout::LEADING)
 
-      sheet_button = JButton.new("Load Chronicle Sheet")
-      sheet_button.add_action_listener { |e| load_sheet }
-      header.add(sheet_button)
-
-      # FIXME Turn this into a combo box and let users select
-      header.add(@info_label = JLabel.new("No Sheet Loaded"))
+      sheet_selector = JComboBox.new(@available_sheets.keys.to_java)
+      sheet_selector.selected_item = nil
+      sheet_selector.add_action_listener { |e| load_sheet e }
+      header.add(sheet_selector)
 
       roster_button = JButton.new("Load Roster")
       roster_button.add_action_listener { |e| load_roster }
@@ -91,12 +90,11 @@ class GUI
     return s
   end
 
-  def load_sheet
-    choose_file(:sheet_dir, "png",  "Chronicle Sheet PNG files (300dpi)") do |file|
-      report_errors { @generator.load_sheet(file) }
-      @preview_panel.repaint()
-      ready_check
-    end
+  def load_sheet(e)
+    sheet_url = @available_sheets[e.source.selected_item]
+    report_errors { @generator.load_sheet(sheet_url) }
+    @preview_panel.repaint()
+    ready_check
   end
 
   def report_errors(&block)
@@ -137,7 +135,6 @@ class GUI
 
   def ready_check
     @generate_button.enabled = @generator.is_ready?
-    @info_label.text = @generator.schema_name
   end
 
   def roster_list
