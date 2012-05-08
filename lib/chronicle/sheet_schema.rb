@@ -249,7 +249,7 @@ class SheetSchema < Hash
 
       STDOUT.puts "Sheet checksum: #{checksum}"
       return sheet_checksums[checksum] if sheet_checksums.has_key? checksum
-      STDOUT.puts "Unrecognized sheet!"
+      STDERR.puts "Unrecognized sheet!"
       return {}
     end
   end
