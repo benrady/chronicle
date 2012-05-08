@@ -17,7 +17,7 @@ describe Generator do
 
   it "gets the list of available sheets" do
     generator.available_sheets.should include(
-      "3-FirstSteps1_InServiceToLore.png" => "resources/sheets/3-FirstSteps1_InServiceToLore.png"
+      "3-EX FirstSteps 1 - In Service To Lore" => "resources/sheets/3-EX FirstSteps 1 - In Service To Lore.png"
     )
   end
 end

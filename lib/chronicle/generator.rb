@@ -26,7 +26,7 @@ class Generator
 
   def available_sheets
     Resources.list_resources.reduce({}) do |memo, resource|
-      memo[File.basename(resource)] = resource
+      memo[File.basename(resource, '.png')] = resource
       memo
     end
   end
@@ -76,7 +76,7 @@ class Generator
     sheet_image = create_sheet_image(info)
     player_dir = File.join(output_dir, info[:society_number])
     FileUtils.mkdir_p(player_dir)
-    filename = File.join(player_dir, "#{info[:character_name]}-#{@scenario_name}")
+    filename = File.join(player_dir, "#{info[:character_name]} #{@scenario_name}")
     ImageIO.write(sheet_image, 'png', java.io.File.new(filename))
   end
 

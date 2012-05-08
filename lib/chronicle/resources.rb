@@ -56,7 +56,12 @@ module Resources
   end
 
   def self.running_in_jar?
-    false
+    begin
+      java.lang.class.Class::forName("JarMain")
+      return true
+    rescue
+      return false
+    end
   end
   
 end
