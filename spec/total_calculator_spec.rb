@@ -34,8 +34,28 @@ describe TotalCalculator do
 
   describe "when validating" do
     it "detects missing required fields" do
-      parser.validate({}).should include "Missing column starting_gold"
-      parser.validate({}).should include "Missing column day_job"
+      parser.validate({}).should == false
+      parser.validate({
+      :buy_list => 1,
+      :character_name => 1,
+      :chronicle_number => 1,
+      :day_job => 1,
+      :event => 1,
+      :event_code => 1,
+      :faction => 1,
+      :gm_society_number => 1,
+      :gold_gained => 1,
+      :player_name => 1,
+      :prestige_gained => 1,
+      :prestige_spent => 1,
+      :sell_list => 1,
+      :society_id => 1,
+      :starting_fame => 1,
+      :starting_gold => 1,
+      :starting_prestige => 1,
+      :starting_xp => 1,
+      :xp_gained => 1 
+      }).should == true
     end
   end
 

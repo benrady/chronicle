@@ -11,18 +11,13 @@ java_import java.awt.image.BufferedImage
 java_import javax.imageio.ImageIO
 java_import javax.swing.JOptionPane
 
-class ValidationError < Exception
-  def initialize(validation_errors)
-    @validation_errors = validation_errors
-  end
-end
-
 class Generator
   attr_accessor :roster
 
   def initialize
     @parser = TotalCalculator.new
     @roster = []
+    @schema = {}
   end
 
   def is_ready?
@@ -38,8 +33,7 @@ class Generator
     lines = File.open(roster_uri).readlines
     @roster = []
     BasicCSV.new(lines).each do |row|
-      validation = @parser.validate(row)
-      raise ValidationError.new(validation) unless validation.empty?
+      raise "Invalid Roster File" unless @parser.validate(row)
       @roster << @parser.calculate_totals(row).merge(Resources.load_gm_data)
     end
   end

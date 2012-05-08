@@ -61,26 +61,28 @@ class TotalCalculator
 
   def validate(info)
     required_fields = [
-      :day_job, 
-      :buy_list, 
-      :sell_list, 
-      :starting_gold,
-      :starting_fame,
+      :buy_list,
+      :character_name,
+      :chronicle_number,
+      :day_job,
+      :event,
+      :event_code,
+      :faction,
+      :gm_society_number,
+      :gold_gained,
+      :player_name,
       :prestige_gained,
       :prestige_spent,
-      :xp_gained,
+      :sell_list,
       :society_id,
-      :gold_gained
+      :starting_fame,
+      :starting_gold,
+      :starting_prestige,
+      :starting_xp,
+      :xp_gained
     ]
 
-    validation = []
-    # Check that all of the columns are present
-    required_fields.each do |field|
-      validation << "Missing column #{field}" unless info.has_key? field
-    end
-
-    return validation
-    # Check for data in required fields
+    required_fields.all? { |field| info.has_key? field }
   end
 
   # FIXME should throw a nice exception if any required fields are missing

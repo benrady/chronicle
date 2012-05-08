@@ -93,26 +93,32 @@ class GUI
 
   def load_sheet
     choose_file(:sheet_dir, "png",  "Chronicle Sheet PNG files (300dpi)") do |file|
-      @generator.load_sheet(file)
+      report_errors { @generator.load_sheet(file) }
       @preview_panel.repaint()
       ready_check
     end
   end
 
+  def report_errors(&block)
+    begin
+      yield 
+    rescue Exception => e
+      handle_error(e)
+    end
+  end
+
   def generate_sheets
     choose_file(:output_dir) do |output_dir|
-      begin
+      report_errors {
         @frame.setCursor(Cursor.getPredefinedCursor(Cursor::WAIT_CURSOR))
         @generator.write_sheets_to(output_dir)
-      rescue Exception => e
-        handle_error(e)
-      end
+      }
       @frame.setCursor(Cursor.getPredefinedCursor(Cursor::DEFAULT_CURSOR))
     end
   end
 
-  def handle_error(e)
-    JOptionPane::showMessageDialog(@frame, "Error generating sheets: #{e.message}")
+  def handle_error(e, title="Error")
+    JOptionPane::showMessageDialog(@frame, "#{e.message}", title, JOptionPane::ERROR_MESSAGE)
     if e.respond_to? :printStackTrace
       e.printStackTrace
     else
@@ -122,7 +128,7 @@ class GUI
 
   def load_roster
     choose_file(:roster_dir, ".csv", "Roster CSV file") do |file|
-      @generator.load_roster(file)
+      report_errors { @generator.load_roster(file) }
       @roster_table.revalidate
       @frame.validate
       ready_check
