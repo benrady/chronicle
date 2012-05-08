@@ -211,8 +211,10 @@ class SheetSchema < Hash
         end,
 
       -7636425827 => season_zero_two_tier,
+      -7746191631 => season_three_two_tier,
       -7720795533 => season_three_two_tier,
       -8030796133 => season_three_two_tier,
+      -8087459922 => season_three_two_tier,
       -8097904993 => season_three_two_tier,
       -8120274613 => season_three_two_tier,
       -8142644233 => season_three_two_tier,
