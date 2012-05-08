@@ -3,27 +3,24 @@ require 'java'
 module Resources
   IO = javax.imageio.ImageIO
 
-  def self.core_class
-    Java::JarMain.java_class
-  end
-
   def self.load_resource(name)
     if File.exists? name
       return java.io.FileInputStream.new(name)
     end
-    core_class.resource_as_stream("/#{name}")
+    IO.java_class.resource_as_stream("/#{name}")
   end
 
   def self.list_resources(dir="")
     if running_in_jar?
-      jar = core_class.protection_domain.code_source.location
+      jar = Java::JarMain.java_class.protection_domain.code_source.location
       stream = java.util.zip.ZipInputStream.new(jar.openStream)
       resources = []
       while entry = stream.next_entry
-        resources << entry.name
+        resources << entry.name if entry.name =~ /chronicle\/resources\/sheets\/./
       end
       resources
     else
+      STDERR.puts "Using local resources!"
       Dir.glob("resources/sheets/**")
     end
   end
@@ -56,12 +53,7 @@ module Resources
   end
 
   def self.running_in_jar?
-    begin
-      java.lang.class.Class::forName("JarMain")
-      return true
-    rescue
-      return false
-    end
+    not load_resource("JarMain.class").nil?
   end
   
 end

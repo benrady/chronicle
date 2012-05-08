@@ -16,6 +16,7 @@ describe Generator do
   end
 
   it "gets the list of available sheets" do
+    STDERR.stub :puts
     generator.available_sheets.should include(
       "3-EX FirstSteps 1 - In Service To Lore" => "resources/sheets/3-EX FirstSteps 1 - In Service To Lore.png"
     )
