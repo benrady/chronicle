@@ -18,21 +18,6 @@ To sign and initial your chronicle sheets, you'll need create two images: `signa
 0. Click "Form"&rarr;"Go to live form". Copy the signup form URL, and fill out the form once for the character you plan to give your GM reward to.
 0. You can now publish the signup form URL to let people know how to sign up for your session. Consider updating the URL field for the event on paizo.com.
 
-## Extracting the Chronicle Sheet
-
-Chronicle requires a 300 pixel/inch PNG file of the scenario chronicle sheet in order to fill it out. There are a number of ways to create this, including:
-
-* In OS X Preview, go to the last page of the scenario pdf and click "File"&rarr;"Save As...", then select Format: PNG and Resolution: 300 (pixels per inch). Preview is sometimes a bit finicky about this...it helps to click outside of the edit box before hitting "save".
-* Using [Docsplit](http://documentcloud.github.com/docsplit/), run `docsplit images -d 300 scenario.pdf`. You can use the `-p` option to select only the last page if you wish.
-
-## Formatting Notes
-
-Chronicle is still a little rough, and it a bit particular about the formatting of values in the CSV. This is especially true for the items bought/sold list. Each item in the list should take the form of:
-
-    <item description> (amount)(units)
-    
-For example, a wayfinder could be listed as: "Standard Wayfinder 250gp". Units can be one of "gp", "sp", or "cp". For things that cost prestige, I generally note that in the description and list the cost as 0gp. 
-
 ## Filling Out the Chronicle Sheet
 0. Go to https://docs.google.com and open your registration form spreadsheet.
 0. Select the "Signups" sheet and review the information to ensure it is correct.
@@ -43,6 +28,14 @@ For example, a wayfinder could be listed as: "Standard Wayfinder 250gp". Units c
 0. Run chronicle and load the chronicle sheet and roster. Hit "Generate Sheets" and choose a directory to output to.
 
 Done! A chronicle sheet for each character (including your GM reward character) should have been created in the directory you selected.
+
+## Formatting Notes
+
+Chronicle is still a little rough, and it a bit particular about the formatting of values in the CSV. This is especially true for the items bought/sold list. Each item in the list should take the form of:
+
+    <item description> (amount)(units)
+    
+For example, a wayfinder could be listed as: "Standard Wayfinder 250gp". Units can be one of "gp", "sp", or "cp". For things that cost prestige, I generally note that in the description and list the cost as 0gp. 
 
 ## Notes for Programmers
 
