@@ -36,6 +36,10 @@ class Generator
     @annotations << shape if @annotations
   end
 
+  def undo_annotation
+    @annotations.pop if @annotations
+  end
+
   def schema_name
     return @schema[:schema_name] if @schema
     "No Sheet Loaded"

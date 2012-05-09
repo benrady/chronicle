@@ -56,6 +56,13 @@ class GUI
       sheet_selector.add_action_listener { |e| load_sheet e }
       header.add(sheet_selector)
 
+      undo_button = JButton.new("Undo Drawing")
+      undo_button.add_action_listener do |e|
+        @generator.undo_annotation
+        @frame.repaint
+      end
+      header.add(undo_button)
+
       roster_button = JButton.new("Load Roster")
       roster_button.add_action_listener { |e| load_roster }
       header.add(roster_button)
