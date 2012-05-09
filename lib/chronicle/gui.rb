@@ -10,6 +10,7 @@ java_import java.awt.BorderLayout
 java_import java.awt.Color
 java_import java.awt.Cursor
 java_import java.awt.Dimension
+java_import java.awt.event.MouseEvent
 java_import java.awt.FlowLayout
 java_import java.awt.GridLayout
 java_import java.util.Properties
@@ -79,6 +80,8 @@ class GUI
   def sheet_panel
     s = Box.createVerticalBox
     @preview_panel = PreviewPanel.new(@generator)
+    @preview_panel.add_mouse_motion_listener {|e| handle_mouse_event e}
+    @preview_panel.add_mouse_listener {|e| handle_mouse_event e}
     s.add(pane = JScrollPane.new(@preview_panel,
                                  JScrollPane::VERTICAL_SCROLLBAR_AS_NEEDED,
                                  JScrollPane::HORIZONTAL_SCROLLBAR_NEVER))
@@ -88,6 +91,24 @@ class GUI
       @preview_panel.revalidate
     end
     return s
+  end
+
+  def handle_mouse_event(e)
+    p = e.getSource.transform.createInverse.transform(e.point, nil)
+    if e.id == MouseEvent::MOUSE_PRESSED
+      @annotation = java.awt.geom.Path2D::Double.new()
+      @annotation.moveTo(p.x, p.y)
+    end
+    if @annotation and 
+        (e.id == MouseEvent::MOUSE_RELEASED || e.id == MouseEvent::MOUSE_EXITED)
+      @generator.add_annotation(@annotation)
+      @annotation = nil
+      @preview_panel.repaint()
+    end
+    if @annotation and e.id == MouseEvent::MOUSE_DRAGGED
+      @annotation.lineTo(p.x, p.y)
+      @preview_panel.repaint()
+    end
   end
 
   def load_sheet(e)

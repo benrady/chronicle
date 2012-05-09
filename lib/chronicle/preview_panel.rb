@@ -14,14 +14,19 @@ class PreviewPanel < JComponent
     @info = info
     repaint
   end
+  
+  def transform
+    scale = getWidth / 2513.0
+    AffineTransform::getScaleInstance(scale, scale)
+  end
 
   def paintComponent(g)
     g = g.create # Make a copy that we can safely mess with
     g.rendering_hints.put(RH::KEY_INTERPOLATION, RH::VALUE_INTERPOLATION_BICUBIC)
     g.rendering_hints.put(RH::KEY_ANTIALIASING, RH::VALUE_ANTIALIAS_ON)
     g.rendering_hints.put(RH::KEY_RENDERING, RH::VALUE_RENDER_QUALITY)
-    scale = getWidth / 2513.0
-    g.transform(AffineTransform::getScaleInstance(scale, scale))
+    g.transform(transform)
     @generator.render_sheet(@info, g)
+    @generator.render_annotations(g)
   end
 end

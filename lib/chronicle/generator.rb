@@ -31,6 +31,10 @@ class Generator
     end
   end
 
+  def add_annotation(shape)
+    @annotations << shape if @annotations
+  end
+
   def schema_name
     return @schema[:schema_name] if @schema
     "No Sheet Loaded"
@@ -46,6 +50,7 @@ class Generator
   end
 
   def load_sheet(sheet_uri)
+    @annotations = []
     @sheet = Resources.load_image_resource(sheet_uri)
     @schema = SheetSchema.find(@sheet)
     @scenario_name = File.basename(sheet_uri)
@@ -56,11 +61,22 @@ class Generator
       renderer = SheetRenderer.new(g, @schema)
       g.drawImage(@sheet, nil, nil)
       renderer.draw(info) if info
+      # FIXME render annotations here
     else
       g.font = Font.new('Marker Felt', Font::PLAIN, 128)
       g.color = Color::LIGHT_GRAY
       g.drawString("Chronicle", 1000 , 750)
       g.drawString("v#{Chronicle::VERSION}", 1000, 900)
+    end
+  end
+
+  def render_annotations(g)
+    g = g.create
+    if @annotations
+      g.stroke = java.awt.BasicStroke.new(100)
+      @annotations.each do |shape|
+        g.draw(shape)
+      end
     end
   end
 
