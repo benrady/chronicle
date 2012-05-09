@@ -7,6 +7,7 @@ require 'chronicle/resources'
 require 'chronicle/basic_csv'
 require "chronicle/version"
 
+java_import java.awt.BasicStroke
 java_import java.awt.image.BufferedImage
 java_import javax.imageio.ImageIO
 java_import javax.swing.JOptionPane
@@ -61,7 +62,7 @@ class Generator
       renderer = SheetRenderer.new(g, @schema)
       g.drawImage(@sheet, nil, nil)
       renderer.draw(info) if info
-      # FIXME render annotations here
+      render_annotations(g)
     else
       g.font = Font.new('Marker Felt', Font::PLAIN, 128)
       g.color = Color::LIGHT_GRAY
@@ -71,9 +72,10 @@ class Generator
   end
 
   def render_annotations(g)
-    g = g.create
     if @annotations
-      g.stroke = java.awt.BasicStroke.new(100)
+      g = g.create
+      g.setColor(Color.new(190, 2, 2))
+      g.setStroke(BasicStroke.new(16, BasicStroke::CAP_ROUND, BasicStroke::JOIN_ROUND))
       @annotations.each do |shape|
         g.draw(shape)
       end

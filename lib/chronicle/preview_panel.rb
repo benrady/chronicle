@@ -27,6 +27,5 @@ class PreviewPanel < JComponent
     g.rendering_hints.put(RH::KEY_RENDERING, RH::VALUE_RENDER_QUALITY)
     g.transform(transform)
     @generator.render_sheet(@info, g)
-    @generator.render_annotations(g)
   end
 end

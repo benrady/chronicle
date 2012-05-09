@@ -94,20 +94,21 @@ class GUI
   end
 
   def handle_mouse_event(e)
-    p = e.getSource.transform.createInverse.transform(e.point, nil)
+    xform = e.getSource.transform
+    p = xform.createInverse.transform(e.point, nil)
     if e.id == MouseEvent::MOUSE_PRESSED
       @annotation = java.awt.geom.Path2D::Double.new()
       @annotation.moveTo(p.x, p.y)
+      @generator.add_annotation(@annotation)
     end
     if @annotation and 
         (e.id == MouseEvent::MOUSE_RELEASED || e.id == MouseEvent::MOUSE_EXITED)
-      @generator.add_annotation(@annotation)
       @annotation = nil
-      @preview_panel.repaint()
+      @frame.repaint
     end
     if @annotation and e.id == MouseEvent::MOUSE_DRAGGED
       @annotation.lineTo(p.x, p.y)
-      @preview_panel.repaint()
+      @preview_panel.repaint
     end
   end
 
