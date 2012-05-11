@@ -22,10 +22,10 @@ To sign and initial your chronicle sheets, you'll need create two images: `signa
 0. Go to https://docs.google.com and open your registration form spreadsheet.
 0. Select the "Signups" sheet and review the information to ensure it is correct.
 0. Select the "ChronicleSheetInfo" sheet and fill in the results of the scenario in columns D through G
-0. Click "File"&rarr;"Download As..."&rarr;"CSV (Current Sheet)". I like to save this file to a "rosters" subdirectory under my scenario directory.
-0. Open a terminal and change to your scenario directory.
-0. If you need to mark out any items that the players did not earn, open up your favorite image editor and mark up the chronicle sheet PNG. 
-0. Run chronicle and load the chronicle sheet and roster. Hit "Generate Sheets" and choose a directory to output to.
+0. Click "File"&rarr;"Download As..."&rarr;"CSV (Current Sheet)".
+0. Run chronicle and load the chronicle sheet and roster. 
+0. Click and drag the mouse to draw on the sheet and indicate subtier, or check off boons.
+0. Hit "Generate Sheets" and choose a directory to output to.
 
 Done! A chronicle sheet for each character (including your GM reward character) should have been created in the directory you selected.
 
