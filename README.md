@@ -14,7 +14,7 @@ To sign and initial your chronicle sheets, you'll need create two images: `signa
 0. First, [click here to create](https://docs.google.com/previewtemplate?id=0Ann48md_Q6mkdGtocUJ4NVZhQjVSdWRidzUtU3dKOHc&mode=public) a simple online signup form for your session.
 0. Give your signup form a name and a description and hit "Save". 
 0. Click "See responses"&rarr;"Spreadsheet", and select the "ScenarioMetadata" sheet
-0. If you haven't already, [register your event at paizo.com](https://secure.paizo.com/pathfinderSociety/myAccount/eventCoordinator) and use the information provided to fill in the "ScenarioMetadata" sheet
+0. If you haven't already, [register your event at paizo.com](https://secure.paizo.com/pathfinderSociety/myAccount/eventCoordinator) and use the information provided to fill in the "In Play" sheet
 0. Click "Form"&rarr;"Go to live form". Copy the signup form URL, and fill out the form once for the character you plan to give your GM reward to.
 0. You can now publish the signup form URL to let people know how to sign up for your session. Consider updating the URL field for the event on paizo.com.
 
