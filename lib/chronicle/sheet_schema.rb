@@ -92,6 +92,8 @@ class SheetSchema < Hash
   def experience_season3(offset)
     merge!({
       :starting_xp => large_text_amount(offset),
+      :xp_gained => large_text_amount(offset + 137),
+      :xp_gained_initial => initials(offset + 137),
       :xp_total => large_text_amount(offset + 277),
     })
   end
