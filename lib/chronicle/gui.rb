@@ -51,7 +51,7 @@ class GUI
     new_panel(nil, 120) { |header|
       header.layout = FlowLayout.new(FlowLayout::LEADING)
 
-      sheet_selector = JComboBox.new(@available_sheets.keys.to_java)
+      sheet_selector = JComboBox.new(@available_sheets.keys.sort.to_java)
       sheet_selector.selected_item = nil
       sheet_selector.add_action_listener { |e| load_sheet e }
       header.add(sheet_selector)
