@@ -1,0 +1,7 @@
+# chronicle.gems generated gem export file. Note that any env variable settings will be missing. Append these after using a ';' field separator
+
+jruby-jars -v1.6.7.2
+jruby-rack -v1.1.12
+rake -v0.8.7
+rubyzip -v0.9.9
+warbler -v1.3.5
