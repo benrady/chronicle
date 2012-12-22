@@ -1,0 +1,9 @@
+#!/bin/bash
+root_dir=`dirname $0`/..
+
+defaults="--acl-public --exclude=.DS_Store"
+bucket=s3://chronicle.windycitypathfinder.com
+cd $root_dir
+
+echo "Deploying site to $bucket"
+s3cmd sync --no-preserve $defaults chronicle.jar $bucket/
