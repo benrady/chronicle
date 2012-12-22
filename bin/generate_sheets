@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Requires the docsplit gem and the graphicsmagick package
+
+if [[ $# -lt 1 ]]; then
+  echo "Usage: $0 <scenario pf> ..."
+  exit 1
+fi
+
+while (( "$#" )); do
+  file=$1
+  echo "Exporting $file"
+  docsplit length "$file" | xargs docsplit images -d 300 "$file" -o . -p
+  shift
+done

@@ -222,14 +222,22 @@ class SheetSchema < Hash
       -8142644233 => season_three_two_tier,
       -8159020407 => season_zero_two_tier,
       -8170606258 => season_three_two_tier,
+      -8151196539 => season_three_two_tier,
+      -8176921602 => season_three_two_tier,
+      -8496807168 => season_three_two_tier,
+      -8520295269 => season_three_two_tier,
+      -8203765146 => season_three_two_tier,
+      -8563916028 => season_three_two_tier,
+      -8331271980 => season_three_two_tier,
+      -8538190965 => season_three_two_tier,
       -8193036675 => three_tier,
-        -8224746833 => SheetSchema.new("Season Zero, Two Tier") do |s| 
-          s.chronicle_number(255) 
-          s.experience(760)
-          s.prestige(1270)
-          s.gold(1785)
-          s.items(2488, 2519)
-        end,
+      -8224746833 => SheetSchema.new("Season Zero, Two Tier") do |s| 
+        s.chronicle_number(255) 
+        s.experience(760)
+        s.prestige(1270)
+        s.gold(1785)
+        s.items(2488, 2519)
+      end,
       -8260084738 => season_three_two_tier,
       -8367763491 => three_tier,
       -8427856888 => season_three_two_tier,
@@ -248,6 +256,7 @@ class SheetSchema < Hash
       -8796554577 => three_tier,
       -7875808144 => season_three_two_tier
       #-9175055510 Year of the Shadow Lodge FIXME
+      #-11071494961 4-SP Race for the Runecarved Key_53.png FIXME
       }
 
       STDOUT.puts "Sheet checksum: #{checksum}"
