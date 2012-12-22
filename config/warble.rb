@@ -14,7 +14,7 @@ Warbler::Config.new do |config|
   config.dirs = %w(bin lib)
 
   # Additional files/directories to include, above those in config.dirs
-  config.includes = FileList["resources/sheets/*"]
+  config.includes = FileList["resources/sheets/*", "resources/cursors/*"]
 
   # Additional files/directories to exclude
   # config.excludes = FileList["lib/tasks/*"]

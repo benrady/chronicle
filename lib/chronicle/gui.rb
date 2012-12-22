@@ -5,6 +5,7 @@ require 'chronicle/roster_table_model'
 require 'chronicle/preview_panel'
 require 'chronicle/settings'
 require 'chronicle/ext_file_filter'
+require 'chronicle/resources'
 
 java_import java.awt.BorderLayout
 java_import java.awt.Color
@@ -89,7 +90,7 @@ class GUI
   def sheet_panel
     s = Box.createVerticalBox
     @preview_panel = PreviewPanel.new(@generator)
-    draw_cursor_img = ImageIO.read(ImageIO.java_class.resource_as_stream('/resources/cursors/marker.png'))
+    draw_cursor_img = Resources.load_cursor('marker')
     @draw_cursor = java.awt.Toolkit.getDefaultToolkit().createCustomCursor(draw_cursor_img, Point.new(0,5), "Marker")
     @preview_panel.add_mouse_motion_listener {|e| handle_mouse_event e}
     @preview_panel.add_mouse_listener {|e| handle_mouse_event e}

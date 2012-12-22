@@ -25,6 +25,13 @@ module Resources
     end
   end
 
+  def self.load_cursor(name)
+    if File.exists? "resources/cursors#{name}.png"
+      return load_resource("resources/cursors#{name}.png")
+    end
+    load_resource("chronicle/resources/cursors#{name}.png")
+  end
+
   def self.load_image_resource(name)
     IO.read(load_resource(name))
   end
