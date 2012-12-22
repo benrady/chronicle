@@ -10,6 +10,7 @@ java_import java.awt.BorderLayout
 java_import java.awt.Color
 java_import java.awt.Cursor
 java_import java.awt.Dimension
+java_import java.awt.Point
 java_import java.awt.event.MouseEvent
 java_import java.awt.FlowLayout
 java_import java.awt.GridLayout
@@ -28,6 +29,7 @@ java_import javax.swing.JPanel
 java_import javax.swing.JScrollPane
 java_import javax.swing.ListSelectionModel
 java_import javax.swing.border.BevelBorder
+java_import javax.imageio.ImageIO
 
 # Note that there are no unit tests for this class, 
 # because starting a swing UI is slow, and RSpec
@@ -87,6 +89,8 @@ class GUI
   def sheet_panel
     s = Box.createVerticalBox
     @preview_panel = PreviewPanel.new(@generator)
+    draw_cursor_img = ImageIO.read(ImageIO.java_class.resource_as_stream('/resources/cursors/marker.png'))
+    @draw_cursor = java.awt.Toolkit.getDefaultToolkit().createCustomCursor(draw_cursor_img, Point.new(0,5), "Marker")
     @preview_panel.add_mouse_motion_listener {|e| handle_mouse_event e}
     @preview_panel.add_mouse_listener {|e| handle_mouse_event e}
     s.add(pane = JScrollPane.new(@preview_panel,
@@ -108,6 +112,13 @@ class GUI
       @annotation.moveTo(p.x, p.y)
       @generator.add_annotation(@annotation)
     end
+    if e.id == MouseEvent::MOUSE_CLICKED
+      mark = java.awt.geom.Path2D::Double.new()
+      mark.moveTo(p.x-1, p.y-1)
+      mark.lineTo(p.x+1, p.y+1)
+      @generator.add_annotation(mark)
+      @preview_panel.repaint
+    end
     if @annotation and 
         (e.id == MouseEvent::MOUSE_RELEASED || e.id == MouseEvent::MOUSE_EXITED)
       @annotation = nil
@@ -123,6 +134,7 @@ class GUI
     sheet_url = @available_sheets[e.source.selected_item]
     report_errors { @generator.load_sheet(sheet_url) }
     @preview_panel.repaint()
+    @preview_panel.setCursor(@draw_cursor)
     ready_check
   end
 
@@ -140,7 +152,7 @@ class GUI
         @frame.setCursor(Cursor.getPredefinedCursor(Cursor::WAIT_CURSOR))
         @generator.write_sheets_to(output_dir)
       }
-      @frame.setCursor(Cursor.getPredefinedCursor(Cursor::DEFAULT_CURSOR))
+      @preview_panel.setCursor(@draw_cursor)
     end
   end
 
